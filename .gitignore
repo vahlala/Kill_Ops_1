@@ -1,0 +1,15 @@
+# Godot 4
+.godot/
+*.translation
+
+# Exports (exécutables générés)
+builds/
+
+# C# / Mono (au cas où)
+.mono/
+*.csproj.old*
+
+# Système
+.DS_Store
+Thumbs.db
+desktop.ini
