@@ -1,0 +1,33 @@
+[gd_scene format=3 uid="uid://d0cq1m2ybnkv4"]
+
+[ext_resource type="Script" uid="uid://cpwmmobpktx0" path="res://scripts/tests/test_player.gd" id="1_16x7c"]
+[ext_resource type="PackedScene" uid="uid://cu3h5fn6spcya" path="res://scenes/player/player.tscn" id="2_6rgxd"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1hf6"]
+size = Vector2(20, 200)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_b4f25"]
+size = Vector2(96, 8)
+
+[node name="Test_Player" type="Node2D" unique_id=812572027]
+script = ExtResource("1_16x7c")
+
+[node name="Sol" type="StaticBody2D" parent="." unique_id=1813595566]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sol" unique_id=213464233]
+position = Vector2(-3, 13)
+polygon = PackedVector2Array(0, 340, 500, 340, 600, 290, 800, 290, 900, 340, 1600, 340, 1600, 384, 0, 384)
+
+[node name="Mur" type="CollisionShape2D" parent="Sol" unique_id=750436045]
+position = Vector2(1580, 240)
+shape = SubResource("RectangleShape2D_e1hf6")
+
+[node name="Plateforme" type="StaticBody2D" parent="." unique_id=381767609]
+position = Vector2(300, 270)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Plateforme" unique_id=1638698055]
+shape = SubResource("RectangleShape2D_b4f25")
+one_way_collision = true
+
+[node name="Player" parent="." unique_id=1915106120 instance=ExtResource("2_6rgxd")]
+position = Vector2(100, 300)

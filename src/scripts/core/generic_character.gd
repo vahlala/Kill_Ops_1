@@ -1,6 +1,5 @@
 class_name GenericCharacter
 extends CharacterBody2D
-## Base commune du joueur, des insectes et du boss.
 
 signal health_changed(hp: int, max_hp: int)
 signal died
@@ -10,7 +9,7 @@ signal died
 @export var max_fall_speed: float = 600.0
 
 var hp: int
-var facing: int = 1          # 1 = droite, -1 = gauche
+var facing: int = 1          
 var is_dead: bool = false
 
 var anim_player: AnimationPlayer
@@ -25,14 +24,12 @@ func _ready() -> void:
 	sprite = get_node_or_null("Sprite2D")
 
 
-## Gravité du projet, limitée à la vitesse de chute maximale.
 func apply_gravity(delta: float) -> void:
 	if not is_on_floor():
 		velocity += get_gravity() * delta
 		velocity.y = minf(velocity.y, max_fall_speed)
 
 
-## Oriente le personnage selon une direction (-1, 0 ou 1).
 func set_facing(direction: float) -> void:
 	if direction > 0:
 		facing = 1

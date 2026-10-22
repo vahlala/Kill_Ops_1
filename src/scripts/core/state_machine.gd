@@ -1,13 +1,10 @@
 class_name StateMachine
 extends Node
-## Gère les états enfants : un seul est actif à la fois.
-## Les états s'ajoutent simplement comme nœuds enfants de la StateMachine.
 
 signal state_changed(old_state_name: String, new_state_name: String)
 
-## État de départ (si vide : le premier enfant).
+
 @export var initial_state: BaseState
-## Affiche les changements d'état dans la console.
 @export var debug: bool = false
 
 var current_state: BaseState
@@ -15,7 +12,7 @@ var states: Dictionary = {}
 
 
 func _ready() -> void:
-	# Les enfants sont prêts AVANT leur parent : on attend que le personnage le soit.
+	
 	var parent := get_parent()
 	if not parent.is_node_ready():
 		await parent.ready
@@ -54,7 +51,7 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_child_transition(state: BaseState, new_state_name: String) -> void:
-	# Seul l'état actif peut demander une transition.
+	
 	if state != current_state:
 		return
 
