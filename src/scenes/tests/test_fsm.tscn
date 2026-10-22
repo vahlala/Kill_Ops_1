@@ -1,0 +1,44 @@
+[gd_scene format=3 uid="uid://xejhpv4vwhcp"]
+
+[ext_resource type="Script" uid="uid://b0tuuhceh233" path="res://scripts/core/generic_character.gd" id="1_m6asb"]
+[ext_resource type="Texture2D" uid="uid://bgovxnk1878hi" path="res://icon.svg" id="2_2bkbn"]
+[ext_resource type="Script" uid="uid://lkc4e5pychh5" path="res://scripts/core/state_machine.gd" id="3_ichei"]
+[ext_resource type="Script" uid="uid://u80gns7agkcu" path="res://scripts/tests/test_idle.gd" id="4_rq5s1"]
+[ext_resource type="Script" uid="uid://d1s3gm4346swm" path="res://scripts/tests/test_move.gd" id="5_of7f2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_e1hf6"]
+resource_name = "sol"
+size = Vector2(600, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1i2no"]
+size = Vector2(32, 32)
+
+[node name="TestFSM" type="Node2D" unique_id=303986667]
+
+[node name="Sol" type="StaticBody2D" parent="." unique_id=598427809]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sol" unique_id=2033739319]
+position = Vector2(320, 350)
+shape = SubResource("RectangleShape2D_e1hf6")
+
+[node name="Dummy" type="CharacterBody2D" parent="." unique_id=1691296405]
+position = Vector2(320, 250)
+collision_layer = 2
+platform_floor_layers = 4294967294
+script = ExtResource("1_m6asb")
+
+[node name="Sprite2D" type="Sprite2D" parent="Dummy" unique_id=1425682726]
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("2_2bkbn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Dummy" unique_id=1772787200]
+shape = SubResource("RectangleShape2D_1i2no")
+
+[node name="stateMachine" type="Node" parent="Dummy" unique_id=210723804]
+script = ExtResource("3_ichei")
+
+[node name="Idle" type="Node" parent="Dummy/stateMachine" unique_id=2017358313]
+script = ExtResource("4_rq5s1")
+
+[node name="Move" type="Node" parent="Dummy/stateMachine" unique_id=1662079417]
+script = ExtResource("5_of7f2")
