@@ -25,11 +25,18 @@ extends GenericCharacter
 @export_group("Tir")
 @export var bullet_scene: PackedScene
 @export var shoot_interval: float = 0.15
+@export var shoot_anim_time: float = 0.25   # durée de la pose de tir après une balle
+
+## Pose de tir à utiliser selon l'animation du corps (Jump et Fall partagent « Air »).
+const SHOOT_POSE := {"Idle": "Stand", "Run": "Run", "Jump": "Air", "Fall": "Air", "Crouch": "Crouch"}
 
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _invulnerable_timer: float = 0.0
 var _last_shot: float = 0.0
+var _shoot_anim_timer: float = 0.0
+var _aim: Vector2 = Vector2.RIGHT          # direction de tir courante
+var _body_animation: String = "Idle"       # animation demandée par l'état actif
 
 var _stand_size: Vector2
 var _stand_position: Vector2
@@ -38,6 +45,9 @@ var _stand_position: Vector2
 @onready var state_machine: StateMachine = $StateMachine
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var muzzle: Marker2D = $Muzzle
+@onready var muzzle_up: Marker2D = $MuzzleUp
+@onready var muzzle_down: Marker2D = $MuzzleDown
+@onready var muzzle_crouch: Marker2D = $MuzzleCrouch
 
 func _ready() -> void:
 	super()                       # initialise PV et références (GenericCharacter)
@@ -57,9 +67,17 @@ func _physics_process(delta: float) -> void:
 	update_jump_timers(delta)
 	if _invulnerable_timer > 0.0:
 		_invulnerable_timer -= delta
+	_aim = get_aim_direction()
 	_last_shot += delta
 	if wants_to_shoot() and can_shoot() and _last_shot >= shoot_interval:
 		shoot()
+
+
+## Le choix de l'animation se fait ici, après la physique de la frame.
+func _process(delta: float) -> void:
+	if _shoot_anim_timer > 0.0:
+		_shoot_anim_timer -= delta
+	_update_animation()
 
 #region Mouvement horizontal
 func get_input_direction() -> float:
@@ -163,19 +181,84 @@ func can_shoot() -> bool:
 	return state != "Hit" and state != "Dead"
 
 
+## Haut : vers le haut. Bas : vers le bas, seulement en l'air
+## (au sol, Bas sert à s'accroupir). Sinon : devant soi.
+func get_aim_direction() -> Vector2:
+	if Input.is_action_pressed("Up"):
+		return Vector2.UP
+	if Input.is_action_pressed("Down") and not is_on_floor():
+		return Vector2.DOWN
+	return Vector2(facing, 0)
+
+
+## Le canon d'où sort la balle, selon la visée et la posture.
+func get_muzzle() -> Marker2D:
+	if _aim == Vector2.UP:
+		return muzzle_up
+	if _aim == Vector2.DOWN:
+		return muzzle_down
+	if state_machine.get_current_state_name() == "Crouch":
+		return muzzle_crouch
+	return muzzle
+
+
 func shoot() -> void:
 	_last_shot = 0.0
+	_shoot_anim_timer = shoot_anim_time
 	var bullet: Bullet = bullet_scene.instantiate()
 	get_tree().current_scene.add_child(bullet)
-	bullet.global_position = muzzle.global_position
-	bullet.rotation = 0.0 if facing > 0 else PI
+	bullet.global_position = get_muzzle().global_position
+	bullet.rotation = _aim.angle()
+	_update_animation()       # la pose de tir apparaît dès cette frame
 
 
 ## On retourne aussi le canon quand le soldat change de côté.
 func set_facing(direction: float) -> void:
 	super(direction)
-	muzzle.position.x = absf(muzzle.position.x) * facing
+	for m: Marker2D in [muzzle, muzzle_up, muzzle_down, muzzle_crouch]:
+		m.position.x = absf(m.position.x) * facing
 #endregion
+
+#region Animation
+## Les états appellent play_animation("Run"), etc. On garde leur demande
+## et on décide ici s'il faut plutôt afficher la version « qui tire ».
+func play_animation(anim_name: String) -> void:
+	_body_animation = anim_name
+	_update_animation()
+
+
+func _update_animation() -> void:
+	var anim := _body_animation
+	if _shoot_anim_timer > 0.0 and SHOOT_POSE.has(_body_animation):
+		var shoot_anim: String = SHOOT_POSE[_body_animation] + "_Shoot" + _aim_suffix()
+		if anim_player.has_animation(shoot_anim):
+			anim = shoot_anim
+	_play_synced(anim)
+
+
+func _aim_suffix() -> String:
+	if _aim == Vector2.UP:
+		return "Up"
+	if _aim == Vector2.DOWN:
+		return "Down"
+	return ""
+
+
+## Change d'animation sans faire sauter les jambes : si l'ancienne et la
+## nouvelle ont la même durée (Run et Run_Shoot), on reprend au même instant.
+func _play_synced(anim: String) -> void:
+	if anim_player.current_animation == anim or not anim_player.has_animation(anim):
+		return
+	var old := anim_player.current_animation
+	if old == "":                 # rien ne joue encore (tout premier appel)
+		anim_player.play(anim)
+		return
+	var pos := anim_player.current_animation_position
+	anim_player.play(anim)
+	if is_equal_approx(anim_player.get_animation(old).length, anim_player.get_animation(anim).length):
+		anim_player.seek(pos, true)
+#endregion
+
 
 #region Caméra
 
