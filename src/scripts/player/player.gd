@@ -157,6 +157,14 @@ func can_stand_up() -> bool:
 
 
 #region Dégâts
+## Mort immédiate, même pendant l'invincibilité (trou, KillZone).
+func kill() -> void:
+	if is_dead:
+		return
+	_invulnerable_timer = 0.0
+	take_damage(max_hp)
+
+
 func is_invulnerable() -> bool:
 	return _invulnerable_timer > 0.0
 

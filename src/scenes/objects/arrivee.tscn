@@ -1,0 +1,23 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/objects/arrivee.gd" id="1_8ojej"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_hhmht"]
+size = Vector2(16, 64)
+
+[node name="Arrivee" type="Area2D" unique_id=318881446]
+collision_layer = 32
+collision_mask = 2
+script = ExtResource("1_8ojej")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1546055817]
+position = Vector2(0, -32)
+shape = SubResource("RectangleShape2D_hhmht")
+
+[node name="Mat" type="Polygon2D" parent="." unique_id=894994425]
+color = Color(0.45, 0.3, 0.2, 1)
+polygon = PackedVector2Array(-1, -48, 1, -48, 1, 0, -1, 0)
+
+[node name="Drapeau" type="Polygon2D" parent="." unique_id=778340009]
+color = Color(0.85, 0.15, 0.15, 1)
+polygon = PackedVector2Array(1, -48, 16, -43, 1, -38)

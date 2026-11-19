@@ -5,6 +5,7 @@ extends Node
 signal lives_changed(lives: int)
 signal score_changed(score: int)
 signal game_over
+signal level_completed
 
 @export var starting_lives: int = 3
 @export var respawn_delay: float = 2.0   # le temps de voir l'animation de mort
@@ -42,6 +43,11 @@ func on_player_died() -> void:
 		game_over.emit()
 		reset()   # TEMPORAIRE : en attendant les scènes de fin, on recommence la partie
 	get_tree().reload_current_scene()
+
+
+## Appelé par l'arrivée du niveau.
+func complete_level() -> void:
+	level_completed.emit()
 
 
 ## Vrai une seule fois juste après une réapparition (le joueur clignote alors).
