@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+GameState="*res://autoload/game_state.gd"
 BulletPool="*res://autoload/bullet_pool.gd"
 
 [display]

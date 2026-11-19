@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dplnnn0utyrh4" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://b307fga1140o4" path="res://assets/sprites/player/SpriteSheet_player.png" id="2_gmlin"]
+[ext_resource type="Shader" uid="uid://c4rsqn16iydq0" path="res://assets/shaders/blink.gdshader" id="sh_blink"]
 [ext_resource type="Script" uid="uid://7xngc1fv05ir" path="res://scripts/player/states/player_crouch.gd" id="s_player_crouch"]
 [ext_resource type="Script" uid="uid://c06tbl2ch0ao4" path="res://scripts/player/states/player_dead.gd" id="s_player_dead"]
 [ext_resource type="Script" uid="uid://sg4lcnpgr07k" path="res://scripts/player/states/player_fall.gd" id="s_player_fall"]
@@ -11,8 +12,64 @@
 [ext_resource type="Script" uid="uid://b4700lkgdy5bl" path="res://scripts/player/states/player_run.gd" id="s_player_run"]
 [ext_resource type="Script" uid="uid://lkc4e5pychh5" path="res://scripts/core/state_machine.gd" id="s_sm"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_blink"]
+shader = ExtResource("sh_blink")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1hf6"]
 size = Vector2(16, 25)
+
+[sub_resource type="Animation" id="Animation_air_shoot"]
+resource_name = "Air_Shoot"
+length = 0.12
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [40, 41]
+}
+
+[sub_resource type="Animation" id="Animation_air_shootdown"]
+resource_name = "Air_ShootDown"
+length = 0.12
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [44, 45]
+}
+
+[sub_resource type="Animation" id="Animation_air_shootup"]
+resource_name = "Air_ShootUp"
+length = 0.12
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [42, 43]
+}
 
 [sub_resource type="Animation" id="Animation_crouch"]
 resource_name = "Crouch"
@@ -28,6 +85,23 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [14]
+}
+
+[sub_resource type="Animation" id="Animation_crouch_shoot"]
+resource_name = "Crouch_Shoot"
+length = 0.12
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [22, 23]
 }
 
 [sub_resource type="Animation" id="Animation_dead"]
@@ -144,57 +218,6 @@ tracks/0/keys = {
 "values": [6, 7, 8, 9, 10, 11, 12, 13]
 }
 
-[sub_resource type="Animation" id="Animation_stand_shoot"]
-resource_name = "Stand_Shoot"
-length = 0.12
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.06),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [18, 19]
-}
-
-[sub_resource type="Animation" id="Animation_stand_shootup"]
-resource_name = "Stand_ShootUp"
-length = 0.12
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.06),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [20, 21]
-}
-
-[sub_resource type="Animation" id="Animation_crouch_shoot"]
-resource_name = "Crouch_Shoot"
-length = 0.12
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.06),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [22, 23]
-}
-
 [sub_resource type="Animation" id="Animation_run_shoot"]
 resource_name = "Run_Shoot"
 length = 0.64
@@ -206,7 +229,7 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [24, 25, 26, 27, 28, 29, 30, 31]
@@ -223,14 +246,14 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
 "values": [32, 33, 34, 35, 36, 37, 38, 39]
 }
 
-[sub_resource type="Animation" id="Animation_air_shoot"]
-resource_name = "Air_Shoot"
+[sub_resource type="Animation" id="Animation_stand_shoot"]
+resource_name = "Stand_Shoot"
 length = 0.12
 loop_mode = 1
 tracks/0/type = "value"
@@ -240,14 +263,14 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.06),
+"times": PackedFloat32Array(0, 0.06),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [40, 41]
+"values": [18, 19]
 }
 
-[sub_resource type="Animation" id="Animation_air_shootup"]
-resource_name = "Air_ShootUp"
+[sub_resource type="Animation" id="Animation_stand_shootup"]
+resource_name = "Stand_ShootUp"
 length = 0.12
 loop_mode = 1
 tracks/0/type = "value"
@@ -257,47 +280,30 @@ tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.06),
+"times": PackedFloat32Array(0, 0.06),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
-"values": [42, 43]
-}
-
-[sub_resource type="Animation" id="Animation_air_shootdown"]
-resource_name = "Air_ShootDown"
-length = 0.12
-loop_mode = 1
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:frame")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.0, 0.06),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [44, 45]
+"values": [20, 21]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_75vfm"]
 _data = {
-&"Stand_Shoot": SubResource("Animation_stand_shoot"),
-&"Stand_ShootUp": SubResource("Animation_stand_shootup"),
-&"Crouch_Shoot": SubResource("Animation_crouch_shoot"),
-&"Run_Shoot": SubResource("Animation_run_shoot"),
-&"Run_ShootUp": SubResource("Animation_run_shootup"),
 &"Air_Shoot": SubResource("Animation_air_shoot"),
-&"Air_ShootUp": SubResource("Animation_air_shootup"),
 &"Air_ShootDown": SubResource("Animation_air_shootdown"),
+&"Air_ShootUp": SubResource("Animation_air_shootup"),
 &"Crouch": SubResource("Animation_crouch"),
+&"Crouch_Shoot": SubResource("Animation_crouch_shoot"),
 &"Dead": SubResource("Animation_dead"),
 &"Fall": SubResource("Animation_fall"),
 &"Hit": SubResource("Animation_hit"),
 &"Idle": SubResource("Animation_idle"),
 &"Jump": SubResource("Animation_jump"),
 &"RESET": SubResource("Animation_reset"),
-&"Run": SubResource("Animation_run")
+&"Run": SubResource("Animation_run"),
+&"Run_Shoot": SubResource("Animation_run_shoot"),
+&"Run_ShootUp": SubResource("Animation_run_shootup"),
+&"Stand_Shoot": SubResource("Animation_stand_shoot"),
+&"Stand_ShootUp": SubResource("Animation_stand_shootup")
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1915106120]
@@ -305,6 +311,7 @@ collision_layer = 2
 script = ExtResource("1_dovo2")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=101920184]
+material = SubResource("ShaderMaterial_blink")
 texture = ExtResource("2_gmlin")
 hframes = 8
 vframes = 7
@@ -349,11 +356,11 @@ script = ExtResource("s_player_dead")
 [node name="Muzzle" type="Marker2D" parent="." unique_id=56633913]
 position = Vector2(14, 3)
 
-[node name="MuzzleUp" type="Marker2D" parent="."]
+[node name="MuzzleUp" type="Marker2D" parent="." unique_id=1709024520]
 position = Vector2(0, -14)
 
-[node name="MuzzleDown" type="Marker2D" parent="."]
+[node name="MuzzleDown" type="Marker2D" parent="." unique_id=955653747]
 position = Vector2(1, 14)
 
-[node name="MuzzleCrouch" type="Marker2D" parent="."]
+[node name="MuzzleCrouch" type="Marker2D" parent="." unique_id=1196607581]
 position = Vector2(14, 8)

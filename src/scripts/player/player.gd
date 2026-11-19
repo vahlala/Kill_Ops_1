@@ -21,6 +21,9 @@ extends GenericCharacter
 @export var invulnerable_time: float = 1.2  # invincibilité après un coup
 @export var hit_stun_time: float = 0.35     # durée de l'état Hit (pas de contrôle)
 @export var default_knockback: Vector2 = Vector2(120.0, -140.0)
+@export var respawn_invulnerable_time: float = 2.0   # invincibilité en réapparaissant
+@export var blink_period: float = 0.08      # durée d'un « clignement » pendant l'invincibilité
+@export_range(0.0, 1.0) var blink_strength: float = 0.8   # force du flash blanc
 
 @export_group("Tir")
 @export var shoot_interval: float = 0.15
@@ -60,6 +63,10 @@ func _ready() -> void:
 	_stand_position = collision_shape.position
 	_last_shot = shoot_interval
 
+	died.connect(GameState.on_player_died)   # mort -> perte d'une vie -> réapparition
+	if GameState.consume_respawn():
+		_invulnerable_timer = respawn_invulnerable_time
+
 ## Ce qui tourne à chaque frame quel que soit l'état.
 ## Le parent est traité avant ses enfants : ceci s'exécute AVANT l'état actif.
 func _physics_process(delta: float) -> void:
@@ -77,6 +84,7 @@ func _process(delta: float) -> void:
 	if _shoot_anim_timer > 0.0:
 		_shoot_anim_timer -= delta
 	_update_animation()
+	_update_blink()
 
 #region Mouvement horizontal
 func get_input_direction() -> float:
@@ -167,6 +175,14 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	else:
 		_invulnerable_timer = invulnerable_time
 		state_machine.transition_to("Hit")
+#endregion
+
+## Clignote en blanc pendant l'invincibilité (shader blink sur le Sprite2D).
+func _update_blink() -> void:
+	var flash_on := is_invulnerable() and not is_dead \
+			and int(_invulnerable_timer / blink_period) % 2 == 0
+	(sprite.material as ShaderMaterial).set_shader_parameter(
+			"flash_modifier", blink_strength if flash_on else 0.0)
 #endregion
 
 #region Tir
