@@ -22,9 +22,14 @@ extends GenericCharacter
 @export var hit_stun_time: float = 0.35     # durée de l'état Hit (pas de contrôle)
 @export var default_knockback: Vector2 = Vector2(120.0, -140.0)
 
+@export_group("Tir")
+@export var bullet_scene: PackedScene
+@export var shoot_interval: float = 0.15
+
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _invulnerable_timer: float = 0.0
+var _last_shot: float = 0.0
 
 var _stand_size: Vector2
 var _stand_position: Vector2
@@ -32,7 +37,7 @@ var _stand_position: Vector2
 @onready var camera: Camera2D = $Camera2D
 @onready var state_machine: StateMachine = $StateMachine
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
-
+@onready var muzzle: Marker2D = $Muzzle
 
 func _ready() -> void:
 	super()                       # initialise PV et références (GenericCharacter)
@@ -44,7 +49,7 @@ func _ready() -> void:
 	collision_shape.shape = collision_shape.shape.duplicate()
 	_stand_size = collision_shape.shape.size
 	_stand_position = collision_shape.position
-
+	_last_shot = shoot_interval
 
 ## Ce qui tourne à chaque frame quel que soit l'état.
 ## Le parent est traité avant ses enfants : ceci s'exécute AVANT l'état actif.
@@ -52,7 +57,9 @@ func _physics_process(delta: float) -> void:
 	update_jump_timers(delta)
 	if _invulnerable_timer > 0.0:
 		_invulnerable_timer -= delta
-
+	_last_shot += delta
+	if wants_to_shoot() and can_shoot() and _last_shot >= shoot_interval:
+		shoot()
 
 #region Mouvement horizontal
 func get_input_direction() -> float:
@@ -145,6 +152,30 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 		state_machine.transition_to("Hit")
 #endregion
 
+#region Tir
+func wants_to_shoot() -> bool:
+	return Input.is_action_pressed("Shoot")
+
+
+## Pas de tir pendant l'étourdissement ni après la mort.
+func can_shoot() -> bool:
+	var state := state_machine.get_current_state_name()
+	return state != "Hit" and state != "Dead"
+
+
+func shoot() -> void:
+	_last_shot = 0.0
+	var bullet: Bullet = bullet_scene.instantiate()
+	get_tree().current_scene.add_child(bullet)
+	bullet.global_position = muzzle.global_position
+	bullet.rotation = 0.0 if facing > 0 else PI
+
+
+## On retourne aussi le canon quand le soldat change de côté.
+func set_facing(direction: float) -> void:
+	super(direction)
+	muzzle.position.x = absf(muzzle.position.x) * facing
+#endregion
 
 #region Caméra
 

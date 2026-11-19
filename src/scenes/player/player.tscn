@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dplnnn0utyrh4" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://b307fga1140o4" path="res://assets/sprites/player/SpriteSheet_player.png" id="2_gmlin"]
+[ext_resource type="PackedScene" uid="uid://dcon5s247o7el" path="res://scenes/projectiles/bullet.tscn" id="2_je7p5"]
 [ext_resource type="Script" uid="uid://7xngc1fv05ir" path="res://scripts/player/states/player_crouch.gd" id="s_player_crouch"]
 [ext_resource type="Script" uid="uid://c06tbl2ch0ao4" path="res://scripts/player/states/player_dead.gd" id="s_player_dead"]
 [ext_resource type="Script" uid="uid://sg4lcnpgr07k" path="res://scripts/player/states/player_fall.gd" id="s_player_fall"]
@@ -159,6 +160,7 @@ _data = {
 [node name="Player" type="CharacterBody2D" unique_id=1915106120]
 collision_layer = 2
 script = ExtResource("1_dovo2")
+bullet_scene = ExtResource("2_je7p5")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=101920184]
 texture = ExtResource("2_gmlin")
@@ -201,3 +203,6 @@ script = ExtResource("s_player_hit")
 
 [node name="Dead" type="Node" parent="StateMachine" unique_id=588596388]
 script = ExtResource("s_player_dead")
+
+[node name="Muzzle" type="Marker2D" parent="." unique_id=56633913]
+position = Vector2(14, 3)
