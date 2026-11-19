@@ -2,8 +2,13 @@
 
 [ext_resource type="Script" path="res://scripts/levels/niveau.gd" id="1_sww66"]
 [ext_resource type="TileSet" path="res://assets/tiles/jungle/jungle_tileset.tres" id="2_mrbbw"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-1.png" id="2_wsh7m"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-2.png" id="3_w7qwj"]
 [ext_resource type="PackedScene" path="res://scenes/player/player.tscn" id="3_wsh7m"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-3.png" id="4_fqyld"]
 [ext_resource type="PackedScene" path="res://scenes/objects/arrivee.tscn" id="5_fqyld"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-4.png" id="5_j8u7w"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-5.png" id="6_jdx4n"]
 [ext_resource type="PackedScene" path="res://scenes/objects/kill_zone.tscn" id="7_jdx4n"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nf5e4"]
@@ -11,14 +16,53 @@
 [node name="Niveau1" type="Node2D" unique_id=153022795]
 script = ExtResource("1_sww66")
 
-[node name="Fond" type="CanvasLayer" parent="." unique_id=490953693]
-layer = -1
+[node name="Parallaxe" type="Node2D" parent="." unique_id=1137849115]
+z_index = -10
 
-[node name="Ciel" type="ColorRect" parent="Fond" unique_id=574385534]
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-color = Color(0.45, 0.65, 0.85, 1)
+[node name="Ciel" type="Parallax2D" parent="Parallaxe" unique_id=808827814]
+scroll_scale = Vector2(0, 0)
+repeat_size = Vector2(384, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallaxe/Ciel" unique_id=1359248750]
+texture = ExtResource("2_wsh7m")
+centered = false
+
+[node name="ArbresLointains" type="Parallax2D" parent="Parallaxe" unique_id=750665857]
+scroll_scale = Vector2(0.1, 0)
+repeat_size = Vector2(384, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallaxe/ArbresLointains" unique_id=344328972]
+texture = ExtResource("3_w7qwj")
+centered = false
+
+[node name="ArbresMoyens" type="Parallax2D" parent="Parallaxe" unique_id=1421588866]
+scroll_scale = Vector2(0.2, 0)
+repeat_size = Vector2(384, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallaxe/ArbresMoyens" unique_id=1607131230]
+texture = ExtResource("4_fqyld")
+centered = false
+
+[node name="ArbresProches" type="Parallax2D" parent="Parallaxe" unique_id=2127401625]
+scroll_scale = Vector2(0.35, 0)
+repeat_size = Vector2(384, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallaxe/ArbresProches" unique_id=1447760049]
+texture = ExtResource("5_j8u7w")
+centered = false
+
+[node name="Lianes" type="Parallax2D" parent="Parallaxe" unique_id=934216852]
+scroll_scale = Vector2(0.5, 0)
+repeat_size = Vector2(384, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Parallaxe/Lianes" unique_id=499174876]
+texture = ExtResource("6_jdx4n")
+centered = false
 
 [node name="Decor" type="TileMapLayer" parent="." unique_id=317184986]
 modulate = Color(0.45, 0.6, 0.5, 1)
