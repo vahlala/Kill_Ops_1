@@ -23,7 +23,6 @@ extends GenericCharacter
 @export var default_knockback: Vector2 = Vector2(120.0, -140.0)
 
 @export_group("Tir")
-@export var bullet_scene: PackedScene
 @export var shoot_interval: float = 0.15
 @export var shoot_anim_time: float = 0.25   # durée de la pose de tir après une balle
 
@@ -205,10 +204,9 @@ func get_muzzle() -> Marker2D:
 func shoot() -> void:
 	_last_shot = 0.0
 	_shoot_anim_timer = shoot_anim_time
-	var bullet: Bullet = bullet_scene.instantiate()
-	get_tree().current_scene.add_child(bullet)
-	bullet.global_position = get_muzzle().global_position
-	bullet.rotation = _aim.angle()
+	var bullet := BulletPool.get_bullet()
+	if bullet:                # null = toutes les balles sont déjà en vol
+		bullet.fire(get_muzzle().global_position, _aim.angle())
 	_update_animation()       # la pose de tir apparaît dès cette frame
 
 
