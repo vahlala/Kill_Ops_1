@@ -42,6 +42,41 @@ Des insectes géants envahissent la Terre, et tu fais partie de l’unité des f
 | Mante religieuse | Mini-boss, combat au corps à corps |
 | La Reine | Boss final, plusieurs phases, pond des larves |
 
+## Machine à états du soldat (patron État)
 
+Chaque état est un nœud enfant de `Player/StateMachine` (`scripts/player/states/`). Un état décide lui-même de ses transitions en émettant `Transitioned`. Seuls **Hit** et **Dead** sont déclenchés de l'extérieur, par `Player.take_damage()` via `StateMachine.transition_to()`.
 
+```mermaid
+stateDiagram-v2
+    [*] --> Idle
+    Idle --> Run : gauche / droite
+    Run --> Idle : aucune direction
+    Idle --> Jump : saut
+    Run --> Jump : saut
+    Idle --> Crouch : bas
+    Run --> Crouch : bas
+    Crouch --> Idle : bas relâché et place au-dessus
+    Crouch --> Run : bas relâché et direction
+    Idle --> Fall : plus de sol
+    Run --> Fall : plus de sol (coyote time)
+    Crouch --> Fall : plus de sol
+    Jump --> Fall : sommet ou plafond
+    Fall --> Jump : saut pendant le coyote time
+    Fall --> Idle : atterrissage
+    Fall --> Run : atterrissage + direction
+    Fall --> Crouch : atterrissage + bas
+    Hit --> Idle : fin de l'étourdissement (au sol)
+    Hit --> Fall : fin de l'étourdissement (en l'air)
+    note right of Hit : tout état → Hit (dégâts)\ntout état → Dead (PV à 0)
+    Dead --> [*]
+```
 
+Règles garanties par la structure : pas de saut en l'air (le saut n'existe que depuis Idle, Run, et Fall pendant le coyote time), pas de saut accroupi (Crouch ne mène jamais à Jump), on ne se relève pas sous un plafond bas, et aucun dégât pendant l'invincibilité qui suit un coup.
+
+### Scène de test (`scenes/tests/test_player.tscn`)
+
+| Touche | Effet |
+|---|---|
+| H | 10 points de dégâts (état Hit) |
+| K | Mort immédiate (état Dead) |
+| R | Recharger la scène |

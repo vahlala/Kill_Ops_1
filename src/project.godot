@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="KILL_OPS_1"
+run/main_scene="uid://d0cq1m2ybnkv4"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -51,10 +51,18 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_child_transition(state: BaseState, new_state_name: String) -> void:
-	
+	# Un état qui n'est plus actif ne peut pas déclencher de transition.
 	if state != current_state:
 		return
+	_change_state(new_state_name)
 
+
+## Transition forcée depuis l'extérieur des états (ex. : dégâts, mort).
+func transition_to(new_state_name: String) -> void:
+	_change_state(new_state_name)
+
+
+func _change_state(new_state_name: String) -> void:
 	var new_state: BaseState = states.get(new_state_name.to_lower())
 	if new_state == null:
 		push_warning("StateMachine : état introuvable « %s »" % new_state_name)

@@ -13,10 +13,25 @@ extends GenericCharacter
 @export var coyote_time: float = 0.1        # on peut encore sauter juste après le bord
 @export var jump_buffer_time: float = 0.1   # un saut pressé juste avant l'atterrissage compte
 
+@export_group("Accroupi")
+@export_range(0.0, 1.0) var crouch_speed_factor: float = 0.35   # vitesse en marchant accroupi
+@export var crouch_height: float = 16.0     # hauteur de la hitbox accroupie (debout : 25)
+
+@export_group("Dégâts")
+@export var invulnerable_time: float = 1.2  # invincibilité après un coup
+@export var hit_stun_time: float = 0.35     # durée de l'état Hit (pas de contrôle)
+@export var default_knockback: Vector2 = Vector2(120.0, -140.0)
+
 var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
+var _invulnerable_timer: float = 0.0
+
+var _stand_size: Vector2
+var _stand_position: Vector2
 
 @onready var camera: Camera2D = $Camera2D
+@onready var state_machine: StateMachine = $StateMachine
+@onready var collision_shape: CollisionShape2D = $CollisionShape2D
 
 
 func _ready() -> void:
@@ -25,42 +40,29 @@ func _ready() -> void:
 	floor_snap_length = 6.0       # reste collé au sol dans les pentes
 	floor_constant_speed = true   # même vitesse en montée et en descente
 
+	# Copie propre à cette instance : on modifie la forme en s'accroupissant.
+	collision_shape.shape = collision_shape.shape.duplicate()
+	_stand_size = collision_shape.shape.size
+	_stand_position = collision_shape.position
 
-# TEMPORAIRE (tâche 5) : cette fonction sera remplacée par la machine à états (tâche 6).
-# Les états réutiliseront exactement les fonctions ci-dessous.
+
+## Ce qui tourne à chaque frame quel que soit l'état.
+## Le parent est traité avant ses enfants : ceci s'exécute AVANT l'état actif.
 func _physics_process(delta: float) -> void:
 	update_jump_timers(delta)
-	apply_gravity(delta)
+	if _invulnerable_timer > 0.0:
+		_invulnerable_timer -= delta
 
-	var direction := get_input_direction()
-	apply_horizontal_movement(direction, delta)
-	set_facing(direction)
 
-	if wants_to_jump() and can_jump():
-		jump()
-	handle_jump_cut()
-
-	move_and_slide()
-	_update_animation_temp(direction)
-
-# TEMPORAIRE (tâche 5) : à la tâche 6, chaque état jouera sa propre animation.
-func _update_animation_temp(direction: float) -> void:
-	if not is_on_floor():
-		play_animation("Jump" if velocity.y < 0.0 else "Fall")
-	elif direction != 0.0:
-		play_animation("Run")
-	else:
-		play_animation("Idle")
-		
 #region Mouvement horizontal
 func get_input_direction() -> float:
 	return Input.get_axis("Left", "Right")
 
 
-func apply_horizontal_movement(direction: float, delta: float) -> void:
+func apply_horizontal_movement(direction: float, delta: float, speed_factor: float = 1.0) -> void:
 	var control := 1.0 if is_on_floor() else air_control
 	if direction != 0.0:
-		velocity.x = move_toward(velocity.x, direction * move_speed, acceleration * control * delta)
+		velocity.x = move_toward(velocity.x, direction * move_speed * speed_factor, acceleration * control * delta)
 	else:
 		velocity.x = move_toward(velocity.x, 0.0, friction * control * delta)
 #endregion
@@ -97,6 +99,50 @@ func jump() -> void:
 func handle_jump_cut() -> void:
 	if Input.is_action_just_released("Jump") and velocity.y < 0.0:
 		velocity.y *= jump_cut
+#endregion
+
+
+#region Accroupi
+func wants_to_crouch() -> bool:
+	return Input.is_action_pressed("Down")
+
+
+## Rapetisse la hitbox en gardant les pieds au même endroit.
+func set_crouching(crouching: bool) -> void:
+	var shape := collision_shape.shape as RectangleShape2D
+	if crouching:
+		shape.size.y = crouch_height
+		collision_shape.position.y = _stand_position.y + (_stand_size.y - crouch_height) / 2.0
+	else:
+		shape.size = _stand_size
+		collision_shape.position = _stand_position
+
+
+## Vrai s'il y a la place de se relever (pas de plafond juste au-dessus).
+func can_stand_up() -> bool:
+	return not test_move(global_transform, Vector2.UP * (_stand_size.y - crouch_height))
+#endregion
+
+
+#region Dégâts
+func is_invulnerable() -> bool:
+	return _invulnerable_timer > 0.0
+
+
+## Point d'entrée des dégâts. Sans knockback fourni, le soldat recule
+## dans le dos (opposé à la direction où il regarde).
+func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
+	if is_dead or is_invulnerable():
+		return
+	if knockback == Vector2.ZERO:
+		knockback = Vector2(default_knockback.x * -facing, default_knockback.y)
+	velocity = Vector2.ZERO           # le recul remplace la vitesse actuelle
+	super(amount, knockback)
+	if is_dead:
+		state_machine.transition_to("Dead")
+	else:
+		_invulnerable_timer = invulnerable_time
+		state_machine.transition_to("Hit")
 #endregion
 
 

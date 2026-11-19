@@ -2,16 +2,122 @@
 
 [ext_resource type="Script" uid="uid://dplnnn0utyrh4" path="res://scripts/player/player.gd" id="1_dovo2"]
 [ext_resource type="Texture2D" uid="uid://b307fga1140o4" path="res://assets/sprites/player/SpriteSheet_player.png" id="2_gmlin"]
+[ext_resource type="Script" uid="uid://7xngc1fv05ir" path="res://scripts/player/states/player_crouch.gd" id="s_player_crouch"]
+[ext_resource type="Script" uid="uid://c06tbl2ch0ao4" path="res://scripts/player/states/player_dead.gd" id="s_player_dead"]
+[ext_resource type="Script" uid="uid://sg4lcnpgr07k" path="res://scripts/player/states/player_fall.gd" id="s_player_fall"]
+[ext_resource type="Script" uid="uid://dpbpc1b0cxw68" path="res://scripts/player/states/player_hit.gd" id="s_player_hit"]
+[ext_resource type="Script" uid="uid://docbw05khnip4" path="res://scripts/player/states/player_idle.gd" id="s_player_idle"]
+[ext_resource type="Script" uid="uid://ctfp7oqq7vndb" path="res://scripts/player/states/player_jump.gd" id="s_player_jump"]
+[ext_resource type="Script" uid="uid://b4700lkgdy5bl" path="res://scripts/player/states/player_run.gd" id="s_player_run"]
+[ext_resource type="Script" uid="uid://lkc4e5pychh5" path="res://scripts/core/state_machine.gd" id="s_sm"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1hf6"]
 size = Vector2(16, 25)
 
-[sub_resource type="Animation" id="Animation_lvxji"]
+[sub_resource type="Animation" id="Animation_crouch"]
+resource_name = "Crouch"
+length = 0.6333333
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [14]
+}
+
+[sub_resource type="Animation" id="Animation_dead"]
+resource_name = "Dead"
+length = 0.6
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.24, 0.36, 0.48),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 1,
+"values": [46, 47, 48, 49, 50]
+}
+
+[sub_resource type="Animation" id="Animation_fall"]
+resource_name = "Fall"
+length = 0.13333334
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [16]
+}
+
+[sub_resource type="Animation" id="Animation_hit"]
+resource_name = "Hit"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [46]
+}
+
+[sub_resource type="Animation" id="Animation_idle"]
+resource_name = "Idle"
+length = 0.72
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.12, 0.24, 0.36, 0.48, 0.6),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5]
+}
+
+[sub_resource type="Animation" id="Animation_jump"]
+resource_name = "Jump"
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [15]
+}
+
+[sub_resource type="Animation" id="Animation_reset"]
+resource_name = "RESET"
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("sprite2d:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -21,37 +127,43 @@ tracks/0/keys = {
 "values": [0]
 }
 
-[sub_resource type="Animation" id="Animation_p47bc"]
-resource_name = "player_animation"
-length = 0.7
+[sub_resource type="Animation" id="Animation_run"]
+resource_name = "Run"
+length = 0.64
 loop_mode = 1
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("sprite2d:frame")
+tracks/0/path = NodePath("Sprite2D:frame")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6),
-"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1),
+"times": PackedFloat32Array(0, 0.08, 0.16, 0.24, 0.32, 0.4, 0.48, 0.56),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1),
 "update": 1,
-"values": [0, 1, 2, 3, 5, 6, 7]
+"values": [6, 7, 8, 9, 10, 11, 12, 13]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_75vfm"]
 _data = {
-&"RESET": SubResource("Animation_lvxji"),
-&"Run": SubResource("Animation_p47bc")
+&"Crouch": SubResource("Animation_crouch"),
+&"Dead": SubResource("Animation_dead"),
+&"Fall": SubResource("Animation_fall"),
+&"Hit": SubResource("Animation_hit"),
+&"Idle": SubResource("Animation_idle"),
+&"Jump": SubResource("Animation_jump"),
+&"RESET": SubResource("Animation_reset"),
+&"Run": SubResource("Animation_run")
 }
 
 [node name="Player" type="CharacterBody2D" unique_id=1915106120]
 collision_layer = 2
 script = ExtResource("1_dovo2")
 
-[node name="sprite2d" type="Sprite2D" parent="." unique_id=101920184]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=101920184]
 texture = ExtResource("2_gmlin")
 hframes = 8
-vframes = 8
+vframes = 7
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=252261608]
 position = Vector2(1, 8)
@@ -59,9 +171,33 @@ shape = SubResource("RectangleShape2D_e1hf6")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=465605433]
 libraries/ = SubResource("AnimationLibrary_75vfm")
-speed_scale = 0.86
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1441513073]
 position = Vector2(0, 5)
 position_smoothing_enabled = true
 position_smoothing_speed = 6.0
+
+[node name="StateMachine" type="Node" parent="." unique_id=1455231558 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("s_sm")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1455009941]
+script = ExtResource("s_player_idle")
+
+[node name="Run" type="Node" parent="StateMachine" unique_id=278257052]
+script = ExtResource("s_player_run")
+
+[node name="Jump" type="Node" parent="StateMachine" unique_id=1940420503]
+script = ExtResource("s_player_jump")
+
+[node name="Fall" type="Node" parent="StateMachine" unique_id=1574136933]
+script = ExtResource("s_player_fall")
+
+[node name="Crouch" type="Node" parent="StateMachine" unique_id=1857482875]
+script = ExtResource("s_player_crouch")
+
+[node name="Hit" type="Node" parent="StateMachine" unique_id=2046288342]
+script = ExtResource("s_player_hit")
+
+[node name="Dead" type="Node" parent="StateMachine" unique_id=588596388]
+script = ExtResource("s_player_dead")

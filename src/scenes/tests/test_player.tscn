@@ -12,15 +12,38 @@ size = Vector2(96, 8)
 [node name="Test_Player" type="Node2D" unique_id=812572027]
 script = ExtResource("1_16x7c")
 
+[node name="Fond" type="CanvasLayer" parent="."]
+layer = -1
+
+[node name="Ciel" type="ColorRect" parent="Fond"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.45, 0.65, 0.85, 1)
+
 [node name="Sol" type="StaticBody2D" parent="." unique_id=1813595566]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sol" unique_id=213464233]
 position = Vector2(-3, 13)
 polygon = PackedVector2Array(0, 340, 500, 340, 600, 290, 800, 290, 900, 340, 1600, 340, 1600, 384, 0, 384)
 
+[node name="Visuel" type="Polygon2D" parent="Sol"]
+position = Vector2(-3, 13)
+color = Color(0.36, 0.27, 0.2, 1)
+polygon = PackedVector2Array(0, 340, 500, 340, 600, 290, 800, 290, 900, 340, 1600, 340, 1600, 384, 0, 384)
+
 [node name="Mur" type="CollisionShape2D" parent="Sol" unique_id=750436045]
 position = Vector2(1580, 240)
 shape = SubResource("RectangleShape2D_e1hf6")
+
+[node name="VisuelMur" type="ColorRect" parent="Sol/Mur"]
+offset_left = -10.0
+offset_top = -100.0
+offset_right = 10.0
+offset_bottom = 100.0
+color = Color(0.36, 0.27, 0.2, 1)
 
 [node name="Plateforme" type="StaticBody2D" parent="." unique_id=381767609]
 position = Vector2(300, 270)
@@ -28,6 +51,13 @@ position = Vector2(300, 270)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Plateforme" unique_id=1638698055]
 shape = SubResource("RectangleShape2D_b4f25")
 one_way_collision = true
+
+[node name="VisuelPlateforme" type="ColorRect" parent="Plateforme"]
+offset_left = -48.0
+offset_top = -4.0
+offset_right = 48.0
+offset_bottom = 4.0
+color = Color(0.55, 0.42, 0.3, 1)
 
 [node name="Player" parent="." unique_id=1915106120 instance=ExtResource("2_6rgxd")]
 position = Vector2(100, 300)
