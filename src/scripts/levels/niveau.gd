@@ -2,7 +2,7 @@ extends Node2D
 ## Script commun des niveaux.
 ## - place le joueur au marqueur « Depart » ;
 ## - limite la caméra à la zone peinte du TileMapLayer « Sol » ;
-## - affiche PV / vies (affichage provisoire en attendant le HUD) ;
+## - affiche PV / vies / score / arme (affichage provisoire en attendant le HUD) ;
 ## - F9 (action goto_end) : téléporte juste avant l'arrivée ;
 ## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée.
 
@@ -26,13 +26,17 @@ func _ready() -> void:
 
 	player.health_changed.connect(_update_info.unbind(2))
 	GameState.lives_changed.connect(_update_info.unbind(1))
+	GameState.score_changed.connect(_update_info.unbind(1))
+	player.ammo_changed.connect(_update_info.unbind(1))
 	GameState.level_completed.connect(_on_level_completed)
 	_update_info()
 	message.hide()
 
 
 func _update_info() -> void:
-	info.text = "PV %d / %d   Vies %d" % [player.hp, player.max_hp, GameState.lives]
+	var arme := "Mitrailleuse %d" % player.heavy_ammo if player.heavy_ammo > 0 else "Pistolet"
+	info.text = "PV %d / %d   Vies %d   Score %d   %s" % [
+			player.hp, player.max_hp, GameState.lives, GameState.score, arme]
 
 
 func _on_level_completed() -> void:

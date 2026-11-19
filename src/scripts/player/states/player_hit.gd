@@ -1,7 +1,6 @@
 class_name PlayerHit
 extends PlayerState
 ## Touché : le recul s'applique, aucun contrôle pendant hit_stun_time.
-## On y entre par player.take_damage(), jamais depuis un autre état.
 
 var _timer: float = 0.0
 

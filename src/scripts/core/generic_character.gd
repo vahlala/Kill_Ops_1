@@ -43,7 +43,7 @@ func set_facing(direction: float) -> void:
 		sprite.flip_h = facing < 0
 
 
-## Joue une animation, que le personnage utilise AnimatedSprite2D ou AnimationPlayer.
+## Joue une animation, que le player utilise AnimatedSprite2D.
 func play_animation(anim_name: String) -> void:
 	if animated_sprite and animated_sprite.sprite_frames \
 			and animated_sprite.sprite_frames.has_animation(anim_name):

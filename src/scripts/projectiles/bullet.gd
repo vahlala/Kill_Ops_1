@@ -1,8 +1,6 @@
 class_name Bullet
 extends Area2D
 ## Balle du joueur : avance tout droit vers sa droite locale (transform.x).
-## Elle n'est jamais détruite : quand elle touche quelque chose ou sort de
-## l'écran, elle émet `finished` et le BulletPool la remet au repos.
 
 signal finished(bullet: Bullet)
 

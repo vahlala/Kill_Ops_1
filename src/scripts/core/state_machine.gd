@@ -51,13 +51,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _on_child_transition(state: BaseState, new_state_name: String) -> void:
-	# Un état qui n'est plus actif ne peut pas déclencher de transition.
+	# Un état qui n'est plus actif.
 	if state != current_state:
 		return
 	_change_state(new_state_name)
 
 
-## Transition forcée depuis l'extérieur des états (ex. : dégâts, mort).
+## Transition forcée depuis l'extérieur des états 
 func transition_to(new_state_name: String) -> void:
 	_change_state(new_state_name)
 

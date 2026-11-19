@@ -1,8 +1,6 @@
 class_name PlayerDead
 extends PlayerState
 ## Mort : plus aucun contrôle, le corps retombe et glisse jusqu'à l'arrêt.
-## État final : aucune transition sortante. La suite (vies, game over)
-## se branche sur le signal `died` du joueur.
 
 
 func enter() -> void:

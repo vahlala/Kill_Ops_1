@@ -2,6 +2,8 @@ class_name Player
 extends GenericCharacter
 ## Le soldat contrôlé par le joueur.
 
+signal ammo_changed(heavy_ammo: int)   # balles de mitrailleuse restantes (0 = pistolet)
+
 @export_group("Déplacement")
 @export var acceleration: float = 900.0     # px/s² pour atteindre move_speed
 @export var friction: float = 1200.0        # px/s² pour s'arrêter
@@ -28,6 +30,8 @@ extends GenericCharacter
 @export_group("Tir")
 @export var shoot_interval: float = 0.15
 @export var shoot_anim_time: float = 0.25   # durée de la pose de tir après une balle
+@export var heavy_shoot_interval: float = 0.07   # mitrailleuse lourde : 2x plus rapide
+@export var heavy_max_ammo: int = 200
 
 ## Pose de tir à utiliser selon l'animation du corps (Jump et Fall partagent « Air »).
 const SHOOT_POSE := {"Idle": "Stand", "Run": "Run", "Jump": "Air", "Fall": "Air", "Crouch": "Crouch"}
@@ -36,6 +40,7 @@ var _coyote_timer: float = 0.0
 var _jump_buffer_timer: float = 0.0
 var _invulnerable_timer: float = 0.0
 var _last_shot: float = 0.0
+var heavy_ammo: int = 0                    # > 0 : on tire à la mitrailleuse
 var _shoot_anim_timer: float = 0.0
 var _aim: Vector2 = Vector2.RIGHT          # direction de tir courante
 var _body_animation: String = "Idle"       # animation demandée par l'état actif
@@ -75,7 +80,7 @@ func _physics_process(delta: float) -> void:
 		_invulnerable_timer -= delta
 	_aim = get_aim_direction()
 	_last_shot += delta
-	if wants_to_shoot() and can_shoot() and _last_shot >= shoot_interval:
+	if wants_to_shoot() and can_shoot() and _last_shot >= get_shoot_interval():
 		shoot()
 
 
@@ -193,6 +198,26 @@ func _update_blink() -> void:
 			"flash_modifier", blink_strength if flash_on else 0.0)
 #endregion
 
+#region Objets ramassés
+func heal(amount: int) -> void:
+	if is_dead:
+		return
+	hp = mini(hp + amount, max_hp)
+	health_changed.emit(hp, max_hp)
+
+
+## Caisse « H » : mitrailleuse lourde, chargeur rempli à `amount` balles (au moins).
+func give_heavy_machine_gun(amount: int) -> void:
+	heavy_ammo = clampi(maxi(heavy_ammo, amount), 0, heavy_max_ammo)
+	ammo_changed.emit(heavy_ammo)
+
+
+## Munitions : ajoute des balles de mitrailleuse (donne l'arme si on ne l'a pas).
+func add_heavy_ammo(amount: int) -> void:
+	heavy_ammo = mini(heavy_ammo + amount, heavy_max_ammo)
+	ammo_changed.emit(heavy_ammo)
+#endregion
+
 #region Tir
 func wants_to_shoot() -> bool:
 	return Input.is_action_pressed("Shoot")
@@ -225,8 +250,16 @@ func get_muzzle() -> Marker2D:
 	return muzzle
 
 
+## Cadence de l'arme actuelle.
+func get_shoot_interval() -> float:
+	return heavy_shoot_interval if heavy_ammo > 0 else shoot_interval
+
+
 func shoot() -> void:
 	_last_shot = 0.0
+	if heavy_ammo > 0:
+		heavy_ammo -= 1               # à 0, on revient automatiquement au pistolet
+		ammo_changed.emit(heavy_ammo)
 	_shoot_anim_timer = shoot_anim_time
 	var bullet := BulletPool.get_bullet()
 	if bullet:                # null = toutes les balles sont déjà en vol
