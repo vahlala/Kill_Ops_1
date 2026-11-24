@@ -1,0 +1,147 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/fourmi/fourmi.gd" id="1_1po2q"]
+[ext_resource type="Shader" path="res://assets/shaders/blink.gdshader" id="2_l4p34"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/fourmi.png" id="3_1fxtx"]
+[ext_resource type="Script" path="res://scripts/core/state_machine.gd" id="4_8p7fj"]
+[ext_resource type="Script" path="res://scripts/enemies/fourmi/states/fourmi_patrol.gd" id="5_o7e6q"]
+[ext_resource type="Script" path="res://scripts/enemies/fourmi/states/fourmi_charge.gd" id="6_lmqbl"]
+[ext_resource type="Script" path="res://scripts/enemies/fourmi/states/fourmi_hurt.gd" id="7_56qdy"]
+[ext_resource type="Script" path="res://scripts/enemies/fourmi/states/fourmi_dead.gd" id="8_tnfbd"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_37ig5"]
+resource_local_to_scene = true
+shader = ExtResource("2_l4p34")
+shader_parameter/flash_color = null
+shader_parameter/flash_modifier = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_lfqgr"]
+size = Vector2(32, 20)
+
+[sub_resource type="Animation" id="Animation_vvx0f"]
+length = 0.24
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.12, 0.18),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="Animation" id="Animation_o7c60"]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [4]
+}
+
+[sub_resource type="Animation" id="Animation_qxqgd"]
+length = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="Animation" id="Animation_lrvml"]
+length = 0.6
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.15, 0.3, 0.45),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b5f1v"]
+_data = {
+&"Charge": SubResource("Animation_vvx0f"),
+&"Dead": SubResource("Animation_o7c60"),
+&"Hurt": SubResource("Animation_qxqgd"),
+&"Walk": SubResource("Animation_lrvml")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_y2imy"]
+size = Vector2(30, 18)
+
+[node name="Fourmi" type="CharacterBody2D" unique_id=1733475629]
+collision_layer = 4
+floor_snap_length = 4.0
+script = ExtResource("1_1po2q")
+max_hp = 3
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=30840437]
+material = SubResource("ShaderMaterial_37ig5")
+texture = ExtResource("3_1fxtx")
+hframes = 5
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1008782266]
+position = Vector2(0, 2)
+shape = SubResource("RectangleShape2D_lfqgr")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=993441831]
+libraries/ = SubResource("AnimationLibrary_b5f1v")
+
+[node name="FloorDetector" type="RayCast2D" parent="." unique_id=1821410515]
+position = Vector2(18, 0)
+target_position = Vector2(0, 16)
+
+[node name="WallDetector" type="RayCast2D" parent="." unique_id=904019823]
+position = Vector2(0, 2)
+target_position = Vector2(20, 0)
+
+[node name="PlayerDetector" type="RayCast2D" parent="." unique_id=1152281957]
+position = Vector2(0, -2)
+target_position = Vector2(160, 0)
+collision_mask = 3
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1049257945]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1049878078]
+position = Vector2(0, 3)
+shape = SubResource("RectangleShape2D_y2imy")
+
+[node name="StateMachine" type="Node" parent="." unique_id=329187405 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("4_8p7fj")
+initial_state = NodePath("Patrol")
+
+[node name="Patrol" type="Node" parent="StateMachine" unique_id=238754863]
+script = ExtResource("5_o7e6q")
+
+[node name="Charge" type="Node" parent="StateMachine" unique_id=180989966]
+script = ExtResource("6_lmqbl")
+
+[node name="Hurt" type="Node" parent="StateMachine" unique_id=382426109]
+script = ExtResource("7_56qdy")
+
+[node name="Dead" type="Node" parent="StateMachine" unique_id=1871357593]
+script = ExtResource("8_tnfbd")
