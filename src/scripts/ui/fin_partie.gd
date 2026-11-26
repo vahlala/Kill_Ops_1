@@ -1,6 +1,8 @@
 extends Control
 ## Scène de fin, gagnante ou perdante selon GameState.last_game_won.
-## Redémarrer (nouvelle partie), Menu principal ou Quitter, au clavier ou à la manette.
+## Si le score entre dans le top 10 : saisie de 3 initiales façon borne d'arcade
+## (haut / bas : lettre, gauche / droite : position, J ou Entrée : valider).
+## Puis Redémarrer (nouvelle partie), Menu principal ou Quitter.
 
 const MENU := "res://scenes/ui/menu_principal.tscn"
 const LEVEL := "res://scenes/levels/niveau_1.tscn"
@@ -9,6 +11,16 @@ const LEVEL := "res://scenes/levels/niveau_1.tscn"
 @onready var subtitle: Label = $SousTitre
 @onready var bonus: Label = $Bonus
 @onready var score: Label = $Score
+@onready var record: Control = $Record
+@onready var buttons: VBoxContainer = $Boutons
+
+const ALPHABET := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+
+var _board: Leaderboard
+var _letters: Array[int] = [0, 0, 0]
+var _cursor: int = 0
+var _entering: bool = false
+var _time: float = 0.0
 
 
 func _ready() -> void:
@@ -26,6 +38,66 @@ func _ready() -> void:
 	$Boutons/Redemarrer.pressed.connect(_restart)
 	$Boutons/Menu.pressed.connect(get_tree().change_scene_to_file.bind(MENU))
 	$Boutons/Quitter.pressed.connect(get_tree().quit)
+
+	_board = Leaderboard.load_board()
+	if _board.qualifies(GameState.score):
+		_entering = true
+		buttons.hide()                      # pas de bouton sélectionné pendant la saisie
+		record.show()
+		_update_letters()
+	else:
+		record.hide()
+		$Boutons/Redemarrer.grab_focus()
+
+
+func _process(delta: float) -> void:
+	if _entering:
+		_time += delta
+		_update_letters()                  # la lettre en cours clignote
+
+
+func _update_letters() -> void:
+	for i in 3:
+		var letter: Label = record.get_node("Lettres/L%d" % (i + 1))
+		letter.text = ALPHABET[_letters[i]]
+		var current := i == _cursor and _entering
+		letter.modulate = Color(1, 0.85, 0.3) if current else Color.WHITE
+		letter.modulate.a = 0.35 if current and int(_time * 4.0) % 2 == 1 else 1.0
+
+
+func _handle_entry(event: InputEvent) -> void:
+	if event.is_action_pressed("ui_up") or event.is_action_pressed("Up"):
+		_letters[_cursor] = wrapi(_letters[_cursor] + 1, 0, ALPHABET.length())
+	elif event.is_action_pressed("ui_down") or event.is_action_pressed("Down"):
+		_letters[_cursor] = wrapi(_letters[_cursor] - 1, 0, ALPHABET.length())
+	elif event.is_action_pressed("ui_right") or event.is_action_pressed("Right"):
+		_cursor = mini(_cursor + 1, 2)
+	elif event.is_action_pressed("ui_left") or event.is_action_pressed("Left"):
+		_cursor = maxi(_cursor - 1, 0)
+	elif event.is_action_pressed("ui_accept") or event.is_action_pressed("Shoot") or event.is_action_pressed("Jump"):
+		if _cursor < 2:
+			_cursor += 1
+		else:
+			_confirm()
+	else:
+		return
+	get_viewport().set_input_as_handled()
+	_update_letters()
+
+
+func _confirm() -> void:
+	_entering = false
+	var initials := ""
+	for i in 3:
+		initials += ALPHABET[_letters[i]]
+	var rank := _board.add(initials, GameState.score, GameState.last_game_won)
+	_board.save()
+	record.get_node("Consigne").text = "%s : classé %d%s !" % [initials, rank, "er" if rank == 1 else "e"]
+	record.get_node("Aide").hide()
+	_update_letters()
+	record.get_node("Lettres").hide()
+	buttons.position.y = 128.0            # juste sous le message « classé Ne »
+	buttons.show()
 	$Boutons/Redemarrer.grab_focus()
 
 
@@ -35,6 +107,9 @@ func _restart() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if _entering:
+		_handle_entry(event)
+		return
 	var focused := get_viewport().gui_get_focus_owner()
 	if focused == null:
 		return

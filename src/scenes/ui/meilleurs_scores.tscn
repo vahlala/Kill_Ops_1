@@ -1,0 +1,616 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/meilleurs_scores.gd" id="1_ms"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fond_jungle.tscn" id="2_fj"]
+
+[sub_resource type="StyleBoxFlat" id="SB_normal"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.05, 0.12, 0.08, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="SB_pressed"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.2, 0.3, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="SB_hover"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1, 0.22, 0.12, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="SB_focus"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="SB_panel"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 0.45)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 1)
+
+[node name="MeilleursScores" type="Control" unique_id=1632052398]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_ms")
+
+[node name="FondJungle" parent="." unique_id=445439139 instance=ExtResource("2_fj")]
+
+[node name="Voile" type="ColorRect" parent="." unique_id=397289548]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Titre" type="Label" parent="." unique_id=1946131398]
+layout_mode = 0
+offset_left = 0.0
+offset_top = 8.0
+offset_right = 384.0
+offset_bottom = 32.0
+theme_override_font_sizes/font_size = 18
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 5
+text = "MEILLEURS SCORES"
+horizontal_alignment = 1
+
+[node name="Cadre" type="Panel" parent="." unique_id=1688097624]
+layout_mode = 0
+offset_left = 102.0
+offset_top = 34.0
+offset_right = 282.0
+offset_bottom = 172.0
+mouse_filter = 2
+theme_override_styles/panel = SubResource("SB_panel")
+
+[node name="Tableau" type="VBoxContainer" parent="." unique_id=1678070755]
+layout_mode = 0
+offset_left = 108.0
+offset_top = 37.0
+offset_right = 276.0
+offset_bottom = 169.0
+theme_override_constants/separation = 1
+
+[node name="Ligne1" type="HBoxContainer" parent="Tableau" unique_id=906261993]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne1" unique_id=1526490156]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "1."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne1" unique_id=222946726]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne1" unique_id=416539396]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne1" unique_id=1471583964]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne2" type="HBoxContainer" parent="Tableau" unique_id=1846324739]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne2" unique_id=1688062727]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "2."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne2" unique_id=909160876]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne2" unique_id=1080055055]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne2" unique_id=1724266288]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne3" type="HBoxContainer" parent="Tableau" unique_id=580999331]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne3" unique_id=1665583226]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "3."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne3" unique_id=742200941]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne3" unique_id=1856527579]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne3" unique_id=497454449]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne4" type="HBoxContainer" parent="Tableau" unique_id=953838553]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne4" unique_id=1456569209]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "4."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne4" unique_id=1023326867]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne4" unique_id=1308764234]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne4" unique_id=446796414]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne5" type="HBoxContainer" parent="Tableau" unique_id=1420021134]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne5" unique_id=230663088]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "5."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne5" unique_id=260650379]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne5" unique_id=461466967]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne5" unique_id=1894040940]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne6" type="HBoxContainer" parent="Tableau" unique_id=475184425]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne6" unique_id=695657342]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "6."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne6" unique_id=730251640]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne6" unique_id=1642434553]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne6" unique_id=1074898998]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne7" type="HBoxContainer" parent="Tableau" unique_id=1389951174]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne7" unique_id=1209225328]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "7."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne7" unique_id=167842558]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne7" unique_id=519804744]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne7" unique_id=1607130824]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne8" type="HBoxContainer" parent="Tableau" unique_id=634840363]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne8" unique_id=1698403604]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "8."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne8" unique_id=323714935]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne8" unique_id=883106115]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne8" unique_id=732158943]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne9" type="HBoxContainer" parent="Tableau" unique_id=714905637]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne9" unique_id=1893905553]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "9."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne9" unique_id=592427788]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne9" unique_id=387137068]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne9" unique_id=922247269]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Ligne10" type="HBoxContainer" parent="Tableau" unique_id=236164264]
+custom_minimum_size = Vector2(0, 12)
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Rang" type="Label" parent="Tableau/Ligne10" unique_id=940749326]
+custom_minimum_size = Vector2(22, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "10."
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Initiales" type="Label" parent="Tableau/Ligne10" unique_id=1805303840]
+custom_minimum_size = Vector2(30, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "---"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Tableau/Ligne10" unique_id=1083707042]
+custom_minimum_size = Vector2(50, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "------"
+horizontal_alignment = 2
+vertical_alignment = 1
+
+[node name="Victoire" type="Label" parent="Tableau/Ligne10" unique_id=1068788139]
+custom_minimum_size = Vector2(48, 12)
+layout_mode = 2
+theme_override_font_sizes/font_size = 6
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = ""
+horizontal_alignment = 0
+vertical_alignment = 1
+
+[node name="Retour" type="Button" parent="." unique_id=639881005]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 0
+offset_left = 132.0
+offset_top = 182.0
+offset_right = 252.0
+offset_bottom = 197.0
+theme_override_styles/normal = SubResource("SB_normal")
+theme_override_styles/pressed = SubResource("SB_pressed")
+theme_override_styles/hover = SubResource("SB_hover")
+theme_override_styles/focus = SubResource("SB_focus")
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "RETOUR"
