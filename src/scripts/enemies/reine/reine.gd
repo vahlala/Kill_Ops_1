@@ -104,6 +104,7 @@ func wake() -> void:
 	_arena_wall.add_child(shape)
 	_arena_wall.position = Vector2(arena.position.x - 8, arena.get_center().y)
 	get_parent().add_child(_arena_wall)
+	Audio.play_sfx("reine_cri", 0.0)
 	fight_started.emit()
 
 
@@ -112,6 +113,7 @@ func spit_volley(count: int, spread_degrees: float) -> void:
 	var player := get_player()
 	if player == null or player.is_dead:
 		return
+	Audio.play_sfx("crachat", 0.0, 2.0)
 	var aim := (player.global_position + Vector2(0, 2) - mouth.global_position).angle()
 	for i in count:
 		var offset := 0.0 if count == 1 else lerpf(-spread_degrees, spread_degrees, float(i) / (count - 1))
@@ -146,9 +148,11 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	set_flash(true)
 	_flash_timer = 0.08
 	if is_dead:
+		Audio.play_sfx("explosion", 0.0)
 		GameState.add_score(score_value)
 		state_machine.transition_to("Dead")
 	elif phase_for_hp() != phase:
+		Audio.play_sfx("reine_cri", 0.05)
 		state_machine.transition_to("Transition")
 
 

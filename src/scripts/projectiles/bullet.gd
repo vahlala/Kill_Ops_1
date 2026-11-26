@@ -49,6 +49,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if not _active:
 		return
 	if body.has_method("take_damage"):
+		Audio.play_sfx("impact", 0.15, -4.0)
 		body.take_damage(damage)
 	finished.emit(self)
 

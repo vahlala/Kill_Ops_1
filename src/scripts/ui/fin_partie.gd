@@ -24,6 +24,7 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
+	Audio.play_music("victoire" if GameState.last_game_won else "defaite")
 	if GameState.last_game_won:
 		title.text = "MISSION ACCOMPLIE !"
 		title.add_theme_color_override("font_color", Color(1, 0.85, 0.3))
@@ -82,11 +83,14 @@ func _handle_entry(event: InputEvent) -> void:
 	else:
 		return
 	get_viewport().set_input_as_handled()
+	if _entering:
+		Audio.play_sfx("ui_deplacer", 0.0)
 	_update_letters()
 
 
 func _confirm() -> void:
 	_entering = false
+	Audio.play_sfx("ramassage", 0.0)
 	var initials := ""
 	for i in 3:
 		initials += ALPHABET[_letters[i]]

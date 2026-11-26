@@ -42,6 +42,7 @@ var _pages: Array[Control] = []
 
 
 func _ready() -> void:
+	Audio.play_music("menu")
 	_pages = [_build_goal_page(), _build_enemies_page(), _build_items_page()]
 	for page in _pages:
 		holder.add_child(page)

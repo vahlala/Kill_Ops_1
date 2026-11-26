@@ -15,6 +15,7 @@ extends Node2D
 
 
 func _ready() -> void:
+	Audio.play_music("jeu")
 	player.global_position = depart.global_position
 
 	var cell := sol.tile_set.tile_size
@@ -41,6 +42,7 @@ func _on_level_completed() -> void:
 
 
 func _on_boss_fight_started(boss: GenericCharacter) -> void:
+	Audio.play_music("boss")
 	if boss_bar:
 		var gauge: ProgressBar = boss_bar.get_node("Jauge")
 		gauge.max_value = boss.max_hp
@@ -54,6 +56,7 @@ func _on_boss_health_changed(hp: int, _max_hp: int) -> void:
 
 
 func _on_boss_died() -> void:
+	Audio.stop_music()                       # silence dramatique après l'explosion
 	if boss_bar:
 		boss_bar.hide()
 	arrivee.unlock()

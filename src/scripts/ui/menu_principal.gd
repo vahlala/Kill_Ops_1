@@ -19,6 +19,7 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
+	Audio.play_music("menu")
 	for button: Button in buttons.get_children():
 		button.pressed.connect(_on_button_pressed.bind(button.name))
 		if SCENES.has(button.name) and not ResourceLoader.exists(SCENES[button.name]):

@@ -22,6 +22,8 @@ var embedded: bool = false
 func _ready() -> void:
 	if embedded:
 		$FondJungle.hide()                    # on laisse voir le jeu figé, assombri
+	else:
+		Audio.play_music("menu")
 	# Valeurs actuelles d'abord, connexions ensuite (sinon on sauvegarderait pour rien).
 	music.value = Settings.music_volume * 100.0
 	sfx.value = Settings.sfx_volume * 100.0

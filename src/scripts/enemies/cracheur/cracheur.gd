@@ -163,6 +163,7 @@ func can_spit(player: Player) -> bool:
 
 func spit(player: Player) -> void:
 	_spit_timer = spit_interval
+	Audio.play_sfx("crachat")
 	var acid: Acide = acid_scene.instantiate()
 	get_tree().current_scene.add_child(acid)
 	var direction := (player_chest(player) - mouth.global_position).normalized()
@@ -185,5 +186,6 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 	_set_flash(true)
 	_flash_timer = 0.1
 	if is_dead:
+		Audio.play_sfx("mort_insecte", 0.15)
 		GameState.add_score(score_value)
 		state_machine.transition_to("Dead")

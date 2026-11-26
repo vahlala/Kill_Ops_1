@@ -8,6 +8,7 @@ const WIN_MARK := "VICTOIRE"
 
 
 func _ready() -> void:
+	Audio.play_music("menu")
 	var board := Leaderboard.load_board()
 	for i in Leaderboard.SIZE:
 		var row: HBoxContainer = table.get_child(i)

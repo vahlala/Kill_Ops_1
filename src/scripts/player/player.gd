@@ -183,6 +183,7 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 		knockback = Vector2(default_knockback.x * -facing, default_knockback.y)
 	velocity = Vector2.ZERO           # le recul remplace la vitesse actuelle
 	super(amount, knockback)
+	Audio.play_sfx("mort_joueur" if is_dead else "degat", 0.0)
 	if is_dead:
 		state_machine.transition_to("Dead")
 	else:
@@ -257,6 +258,7 @@ func get_shoot_interval() -> float:
 
 func shoot() -> void:
 	_last_shot = 0.0
+	Audio.play_sfx("tir_lourd" if heavy_ammo > 0 else "tir")
 	if heavy_ammo > 0:
 		heavy_ammo -= 1               # à 0, on revient automatiquement au pistolet
 		ammo_changed.emit(heavy_ammo)

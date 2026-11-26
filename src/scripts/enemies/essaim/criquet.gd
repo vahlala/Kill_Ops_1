@@ -134,6 +134,7 @@ func take_damage(amount: int, knockback: Vector2 = Vector2.ZERO) -> void:
 		return
 	super(amount, knockback)
 	if is_dead:
+		Audio.play_sfx("mort_insecte", 0.15)
 		GameState.add_score(score_value)
 		set_deferred("collision_layer", 0)          # souvent appelé pendant le signal de la balle
 		hitbox.set_deferred("monitoring", false)

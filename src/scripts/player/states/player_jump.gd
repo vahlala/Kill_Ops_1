@@ -5,6 +5,7 @@ extends PlayerState
 
 func enter() -> void:
 	player.jump()
+	Audio.play_sfx("saut")
 	player.play_animation("Jump")
 
 

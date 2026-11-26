@@ -45,6 +45,7 @@ func _on_body_entered(body: Node2D) -> void:
 	if _taken or not body is Player:
 		return
 	_taken = true
+	Audio.play_sfx("ramassage", 0.0)
 	_apply(body)
 	GameState.add_score(score)
 	set_deferred("monitoring", false)
