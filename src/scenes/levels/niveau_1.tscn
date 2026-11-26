@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/pickup.tscn" id="8_w7qwj"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/fourmi.tscn" id="9_fqyld"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/essaim.tscn" id="10_j8u7w"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/cracheur.tscn" id="11_jdx4n"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nf5e4"]
 
@@ -122,6 +123,9 @@ position = Vector2(2400, 308)
 
 [node name="Essaim_1" parent="Ennemis" unique_id=399284294 instance=ExtResource("10_j8u7w")]
 position = Vector2(1632, 176)
+
+[node name="Cracheur_1" parent="Ennemis" unique_id=102769119 instance=ExtResource("11_jdx4n")]
+position = Vector2(2032, 200)
 
 [node name="Player" parent="." unique_id=1915106120 instance=ExtResource("3_wsh7m")]
 

@@ -1,0 +1,97 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/cracheur/cracheur.gd" id="1_fmyoe"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/acide.tscn" id="2_h1yvv"]
+[ext_resource type="Shader" path="res://assets/shaders/blink.gdshader" id="3_qec6b"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/cracheur.png" id="4_nuqi3"]
+[ext_resource type="Script" path="res://scripts/core/state_machine.gd" id="5_ib1gv"]
+[ext_resource type="Script" path="res://scripts/enemies/cracheur/states/cracheur_idle.gd" id="6_ge6xo"]
+[ext_resource type="Script" path="res://scripts/enemies/cracheur/states/cracheur_approach.gd" id="7_sgxr8"]
+[ext_resource type="Script" path="res://scripts/enemies/cracheur/states/cracheur_position.gd" id="8_ht4s4"]
+[ext_resource type="Script" path="res://scripts/enemies/cracheur/states/cracheur_flee.gd" id="9_ds6pe"]
+[ext_resource type="Script" path="res://scripts/enemies/cracheur/states/cracheur_dead.gd" id="10_nq4sq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qp7gs"]
+resource_local_to_scene = true
+shader = ExtResource("3_qec6b")
+shader_parameter/flash_color = null
+shader_parameter/flash_modifier = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_wkj5q"]
+size = Vector2(20, 10)
+
+[sub_resource type="Animation" id="Animation_458a4"]
+length = 0.1
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.05),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jephx"]
+_data = {
+&"Fly": SubResource("Animation_458a4")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_s6kx2"]
+size = Vector2(20, 12)
+
+[node name="Cracheur" type="CharacterBody2D" unique_id=102769119]
+collision_layer = 4
+motion_mode = 1
+script = ExtResource("1_fmyoe")
+acid_scene = ExtResource("2_h1yvv")
+max_hp = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1372304251]
+material = SubResource("ShaderMaterial_qp7gs")
+texture = ExtResource("4_nuqi3")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2134645344]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_wkj5q")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1548986160]
+libraries/ = SubResource("AnimationLibrary_jephx")
+
+[node name="Mouth" type="Marker2D" parent="." unique_id=396754290]
+position = Vector2(13, 3)
+
+[node name="Sight" type="RayCast2D" parent="." unique_id=43512703]
+position = Vector2(13, 3)
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=690124596]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=1962649771]
+position = Vector2(0, 1)
+shape = SubResource("RectangleShape2D_s6kx2")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1509730275 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("5_ib1gv")
+initial_state = NodePath("Idle")
+
+[node name="Idle" type="Node" parent="StateMachine" unique_id=1103901944]
+script = ExtResource("6_ge6xo")
+
+[node name="Approach" type="Node" parent="StateMachine" unique_id=1985279973]
+script = ExtResource("7_sgxr8")
+
+[node name="Position" type="Node" parent="StateMachine" unique_id=142127832]
+script = ExtResource("8_ht4s4")
+
+[node name="Flee" type="Node" parent="StateMachine" unique_id=405463382]
+script = ExtResource("9_ds6pe")
+
+[node name="Dead" type="Node" parent="StateMachine" unique_id=865524496]
+script = ExtResource("10_nq4sq")
