@@ -4,9 +4,7 @@ extends Node2D
 ## - limite la caméra à la zone peinte du TileMapLayer « Sol » ;
 ## - F9 (action goto_end) : déverrouille l'arrivée et téléporte juste avant ;
 ## - barre de vie du boss (groupe « Boss ») ; sa mort déverrouille l'arrivée ;
-## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée ;
-## - F2 (TEMPORAIRE, en attendant l'écran de configuration) : change la difficulté
-##   et recommence le niveau.
+## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée.
 
 @onready var player: Player = $Player
 @onready var sol: TileMapLayer = $Sol
@@ -62,10 +60,6 @@ func _on_boss_died() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F2:
-		GameState.set_difficulty((GameState.difficulty + 1) % 3 as GameState.Difficulty)
-		get_tree().reload_current_scene()
-		return
 	if event.is_action_pressed("goto_end"):
 		arrivee.unlock()
 		player.global_position = arrivee.global_position + Vector2(-48, -16)

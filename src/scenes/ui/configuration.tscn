@@ -1,0 +1,240 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/configuration.gd" id="1_2qdq7"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fond_jungle.tscn" id="2_tpmik"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_4ntnc"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hw2e8"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.05, 0.12, 0.08, 0.75)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1lfte"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.2, 0.3, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_48fc2"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0.1, 0.22, 0.12, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_fpa4n"]
+content_margin_left = 2.0
+content_margin_top = 2.0
+content_margin_right = 2.0
+content_margin_bottom = 2.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[node name="Configuration" type="Control" unique_id=722011453]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_2qdq7")
+
+[node name="FondJungle" parent="." unique_id=1424762890 instance=ExtResource("2_tpmik")]
+
+[node name="Voile" type="ColorRect" parent="." unique_id=159903093]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.6)
+
+[node name="Titre" type="Label" parent="." unique_id=1569096123]
+layout_mode = 0
+offset_top = 14.0
+offset_right = 384.0
+offset_bottom = 37.0
+theme_override_font_sizes/font_size = 16
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+text = "CONFIGURATION"
+horizontal_alignment = 1
+
+[node name="Reglages" type="VBoxContainer" parent="." unique_id=2120596419]
+layout_mode = 0
+offset_left = 77.0
+offset_top = 56.0
+offset_right = 77.0
+offset_bottom = 56.0
+theme_override_constants/separation = 8
+
+[node name="Musique" type="HBoxContainer" parent="Reglages" unique_id=1863335922]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Nom" type="Label" parent="Reglages/Musique" unique_id=1110157558]
+custom_minimum_size = Vector2(104, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.92, 0.95, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Volume de la musique"
+vertical_alignment = 1
+
+[node name="Curseur" type="HSlider" parent="Reglages/Musique" unique_id=1878157811]
+custom_minimum_size = Vector2(110, 14)
+layout_mode = 2
+size_flags_vertical = 4
+step = 10.0
+
+[node name="Valeur" type="Label" parent="Reglages/Musique" unique_id=377076381]
+custom_minimum_size = Vector2(50, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+vertical_alignment = 1
+
+[node name="Effets" type="HBoxContainer" parent="Reglages" unique_id=916902321]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Nom" type="Label" parent="Reglages/Effets" unique_id=655656331]
+custom_minimum_size = Vector2(104, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.92, 0.95, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Volume des effets"
+vertical_alignment = 1
+
+[node name="Curseur" type="HSlider" parent="Reglages/Effets" unique_id=947347920]
+custom_minimum_size = Vector2(110, 14)
+layout_mode = 2
+size_flags_vertical = 4
+step = 10.0
+
+[node name="Valeur" type="Label" parent="Reglages/Effets" unique_id=2119408076]
+custom_minimum_size = Vector2(50, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+vertical_alignment = 1
+
+[node name="Sourdine" type="HBoxContainer" parent="Reglages" unique_id=441014254]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Nom" type="Label" parent="Reglages/Sourdine" unique_id=913897308]
+custom_minimum_size = Vector2(104, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.92, 0.95, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Sourdine (Ctrl+M)"
+vertical_alignment = 1
+
+[node name="Case" type="CheckButton" parent="Reglages/Sourdine" unique_id=151219285]
+custom_minimum_size = Vector2(110, 14)
+layout_mode = 2
+theme_override_styles/focus = SubResource("StyleBoxFlat_4ntnc")
+
+[node name="Valeur" type="Label" parent="Reglages/Sourdine" unique_id=624369311]
+custom_minimum_size = Vector2(50, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+vertical_alignment = 1
+
+[node name="Difficulte" type="HBoxContainer" parent="Reglages" unique_id=1796291147]
+layout_mode = 2
+theme_override_constants/separation = 6
+
+[node name="Nom" type="Label" parent="Reglages/Difficulte" unique_id=417059298]
+custom_minimum_size = Vector2(104, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.92, 0.95, 0.92, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Difficulté"
+vertical_alignment = 1
+
+[node name="Curseur" type="HSlider" parent="Reglages/Difficulte" unique_id=13896255]
+custom_minimum_size = Vector2(110, 14)
+layout_mode = 2
+size_flags_vertical = 4
+max_value = 2.0
+
+[node name="Valeur" type="Label" parent="Reglages/Difficulte" unique_id=965177126]
+custom_minimum_size = Vector2(50, 14)
+layout_mode = 2
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+vertical_alignment = 1
+
+[node name="Retour" type="Button" parent="." unique_id=535969170]
+custom_minimum_size = Vector2(80, 15)
+layout_mode = 0
+offset_left = 152.0
+offset_top = 160.0
+offset_right = 232.0
+offset_bottom = 175.0
+theme_override_styles/normal = SubResource("StyleBoxFlat_hw2e8")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_1lfte")
+theme_override_styles/hover = SubResource("StyleBoxFlat_48fc2")
+theme_override_styles/focus = SubResource("StyleBoxFlat_fpa4n")
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "RETOUR"
+
+[node name="Aide" type="Label" parent="." unique_id=1840824243]
+layout_mode = 0
+offset_top = 196.0
+offset_right = 441.0
+offset_bottom = 219.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.65, 0.7, 0.65, 1)
+text = "Haut/Bas : choisir   Gauche/Droite : régler   Échap : retour"
+horizontal_alignment = 1
