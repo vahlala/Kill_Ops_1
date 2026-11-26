@@ -1,0 +1,256 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/fin_partie.gd" id="1_2683q"]
+[ext_resource type="PackedScene" path="res://scenes/ui/fond_jungle.tscn" id="2_ib3ns"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yth1g"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.05, 0.12, 0.08, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_87p0q"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.2, 0.3, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_t12v1"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1, 0.22, 0.12, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_edv8e"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_vsbfu"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.05, 0.12, 0.08, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hxxl4"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.2, 0.3, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_061gb"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1, 0.22, 0.12, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1gggv"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bndo6"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.05, 0.12, 0.08, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.2, 0.35, 0.25, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_chg7c"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.2, 0.3, 0.1, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_xhg10"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.1, 0.22, 0.12, 0.9)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_rokm0"]
+content_margin_left = 1.0
+content_margin_top = 1.0
+content_margin_right = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0, 0, 0, 0)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(1, 0.85, 0.3, 1)
+
+[node name="FinPartie" type="Control" unique_id=971690186]
+layout_mode = 3
+anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_2683q")
+
+[node name="FondJungle" parent="." unique_id=1424762890 instance=ExtResource("2_ib3ns")]
+
+[node name="Voile" type="ColorRect" parent="." unique_id=1291431880]
+layout_mode = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+color = Color(0, 0, 0, 0.55)
+
+[node name="Titre" type="Label" parent="." unique_id=142560645]
+layout_mode = 0
+offset_top = 26.0
+offset_right = 384.0
+offset_bottom = 56.0
+theme_override_font_sizes/font_size = 24
+theme_override_colors/font_color = Color(1, 0.85, 0.3, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+text = "MISSION ACCOMPLIE !"
+horizontal_alignment = 1
+
+[node name="SousTitre" type="Label" parent="." unique_id=850650773]
+layout_mode = 0
+offset_top = 58.0
+offset_right = 384.0
+offset_bottom = 81.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.9, 0.95, 0.9, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "..."
+horizontal_alignment = 1
+
+[node name="Bonus" type="Label" parent="." unique_id=1945594752]
+layout_mode = 0
+offset_top = 78.0
+offset_right = 384.0
+offset_bottom = 101.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.75, 1, 0.75, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Bonus"
+horizontal_alignment = 1
+
+[node name="Score" type="Label" parent="." unique_id=324755585]
+layout_mode = 0
+offset_top = 92.0
+offset_right = 384.0
+offset_bottom = 115.0
+theme_override_font_sizes/font_size = 12
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 3
+text = "SCORE FINAL  000000"
+horizontal_alignment = 1
+
+[node name="Boutons" type="VBoxContainer" parent="." unique_id=206943772]
+layout_mode = 0
+offset_left = 132.0
+offset_top = 120.0
+offset_right = 132.0
+offset_bottom = 120.0
+theme_override_constants/separation = 4
+
+[node name="Redemarrer" type="Button" parent="Boutons" unique_id=198977142]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_yth1g")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_87p0q")
+theme_override_styles/hover = SubResource("StyleBoxFlat_t12v1")
+theme_override_styles/focus = SubResource("StyleBoxFlat_edv8e")
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "REDÉMARRER"
+
+[node name="Menu" type="Button" parent="Boutons" unique_id=1767172948]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_vsbfu")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_hxxl4")
+theme_override_styles/hover = SubResource("StyleBoxFlat_061gb")
+theme_override_styles/focus = SubResource("StyleBoxFlat_1gggv")
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "MENU PRINCIPAL"
+
+[node name="Quitter" type="Button" parent="Boutons" unique_id=1470848118]
+custom_minimum_size = Vector2(120, 15)
+layout_mode = 2
+theme_override_styles/normal = SubResource("StyleBoxFlat_bndo6")
+theme_override_styles/pressed = SubResource("StyleBoxFlat_chg7c")
+theme_override_styles/hover = SubResource("StyleBoxFlat_xhg10")
+theme_override_styles/focus = SubResource("StyleBoxFlat_rokm0")
+theme_override_colors/font_focus_color = Color(1, 0.9, 0.3, 1)
+theme_override_colors/font_hover_color = Color(1, 0.9, 0.3, 1)
+theme_override_font_sizes/font_size = 8
+text = "QUITTER"
