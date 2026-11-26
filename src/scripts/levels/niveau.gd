@@ -5,7 +5,9 @@ extends Node2D
 ## - affiche PV / vies / score / arme (affichage provisoire en attendant le HUD) ;
 ## - F9 (action goto_end) : déverrouille l'arrivée et téléporte juste avant ;
 ## - barre de vie du boss (groupe « Boss ») ; sa mort déverrouille l'arrivée ;
-## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée.
+## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée ;
+## - F2 (TEMPORAIRE, en attendant l'écran de configuration) : change la difficulté
+##   et recommence le niveau.
 
 @onready var player: Player = $Player
 @onready var sol: TileMapLayer = $Sol
@@ -44,8 +46,9 @@ func _ready() -> void:
 
 func _update_info() -> void:
 	var arme := "Mitrailleuse %d" % player.heavy_ammo if player.heavy_ammo > 0 else "Pistolet"
-	info.text = "PV %d / %d   Vies %d   Score %d   %s" % [
-			player.hp, player.max_hp, GameState.lives, GameState.score, arme]
+	info.text = "PV %d / %d   Vies %d   Score %d   %s   %s" % [
+			player.hp, player.max_hp, GameState.lives, GameState.score, arme,
+			GameState.get_difficulty_settings().name]
 
 
 func _on_level_completed() -> void:
@@ -73,6 +76,10 @@ func _on_boss_died() -> void:
 
 
 func _unhandled_input(event: InputEvent) -> void:
+	if event is InputEventKey and event.pressed and not event.echo and event.keycode == KEY_F2:
+		GameState.set_difficulty((GameState.difficulty + 1) % 3 as GameState.Difficulty)
+		get_tree().reload_current_scene()
+		return
 	if event.is_action_pressed("goto_end"):
 		arrivee.unlock()
 		player.global_position = arrivee.global_position + Vector2(-48, -16)

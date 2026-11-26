@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/kill_zone.tscn" id="7_jdx4n"]
 [ext_resource type="PackedScene" path="res://scenes/objects/pickup.tscn" id="8_w7qwj"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/fourmi.tscn" id="9_fqyld"]
+[ext_resource type="Script" path="res://scripts/objects/spawner.gd" id="9_nf5e4"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/essaim.tscn" id="10_j8u7w"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/cracheur.tscn" id="11_jdx4n"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/reine.tscn" id="12_5r6dw"]
@@ -113,31 +114,51 @@ position = Vector2(2720, 308)
 kind = 1
 amount = 60
 
-[node name="Ennemis" type="Node2D" parent="." unique_id=1180266348]
+[node name="Vagues" type="Node2D" parent="." unique_id=1331652940]
 
-[node name="Fourmi_1" parent="Ennemis" unique_id=1733475629 instance=ExtResource("9_fqyld")]
+[node name="Fourmis_A" type="Marker2D" parent="Vagues" unique_id=1405516293]
 position = Vector2(480, 308)
+gizmo_extents = 20.0
+script = ExtResource("9_nf5e4")
+enemy_scene = ExtResource("9_fqyld")
+waves = 2
+wave_interval = 4.0
 
-[node name="Fourmi_2" parent="Ennemis" unique_id=146242130 instance=ExtResource("9_fqyld")]
-position = Vector2(600, 308)
-
-[node name="Fourmi_3" parent="Ennemis" unique_id=306629718 instance=ExtResource("9_fqyld")]
+[node name="Fourmis_B" type="Marker2D" parent="Vagues" unique_id=1924184519]
 position = Vector2(1280, 308)
+gizmo_extents = 20.0
+script = ExtResource("9_nf5e4")
+enemy_scene = ExtResource("9_fqyld")
+waves = 2
+wave_interval = 4.0
 
-[node name="Fourmi_4" parent="Ennemis" unique_id=194170985 instance=ExtResource("9_fqyld")]
-position = Vector2(1400, 308)
-
-[node name="Fourmi_5" parent="Ennemis" unique_id=826720524 instance=ExtResource("9_fqyld")]
-position = Vector2(2320, 308)
-
-[node name="Fourmi_6" parent="Ennemis" unique_id=1694660892 instance=ExtResource("9_fqyld")]
-position = Vector2(2400, 308)
-
-[node name="Essaim_1" parent="Ennemis" unique_id=399284294 instance=ExtResource("10_j8u7w")]
+[node name="Essaim_C" type="Marker2D" parent="Vagues" unique_id=1042930250]
 position = Vector2(1632, 176)
+gizmo_extents = 20.0
+script = ExtResource("9_nf5e4")
+enemy_scene = ExtResource("10_j8u7w")
+count = 1
+wave_interval = 0.0
+spacing = Vector2(0, 0)
 
-[node name="Cracheur_1" parent="Ennemis" unique_id=102769119 instance=ExtResource("11_jdx4n")]
+[node name="Cracheur_D" type="Marker2D" parent="Vagues" unique_id=80133204]
 position = Vector2(2032, 200)
+gizmo_extents = 20.0
+script = ExtResource("9_nf5e4")
+enemy_scene = ExtResource("11_jdx4n")
+count = 1
+wave_interval = 0.0
+spacing = Vector2(48, -16)
+
+[node name="Fourmis_E" type="Marker2D" parent="Vagues" unique_id=75373613]
+position = Vector2(2320, 308)
+gizmo_extents = 20.0
+script = ExtResource("9_nf5e4")
+enemy_scene = ExtResource("9_fqyld")
+waves = 2
+wave_interval = 4.0
+
+[node name="Ennemis" type="Node2D" parent="." unique_id=1180266348]
 
 [node name="Reine" parent="Ennemis" unique_id=1334333489 instance=ExtResource("12_5r6dw")]
 position = Vector2(2960, 222)

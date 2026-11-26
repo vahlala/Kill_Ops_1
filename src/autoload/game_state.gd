@@ -1,17 +1,28 @@
 extends Node
-## État global de la partie (autoload GameState) : vies et score.
+## État global de la partie (autoload GameState) : vies, score et difficulté.
 ## Il survit aux rechargements de scène, contrairement au joueur.
 
 signal lives_changed(lives: int)
 signal score_changed(score: int)
 signal game_over
 signal level_completed
+signal difficulty_changed(difficulty: Difficulty)
+
+enum Difficulty { FACILE, NORMAL, DIFFICILE }
+
+## Effet de chaque difficulté sur les vagues : nombre et vitesse des ennemis.
+const DIFFICULTY_SETTINGS := {
+	Difficulty.FACILE: {"name": "Facile", "count": 0.6, "speed": 0.8},
+	Difficulty.NORMAL: {"name": "Normal", "count": 1.0, "speed": 1.0},
+	Difficulty.DIFFICILE: {"name": "Difficile", "count": 1.5, "speed": 1.25},
+}
 
 @export var starting_lives: int = 3
 @export var respawn_delay: float = 2.0   # le temps de voir l'animation de mort
 
 var lives: int = 0
 var score: int = 0
+var difficulty: Difficulty = Difficulty.NORMAL   # n'est PAS remise à zéro par reset()
 var _just_respawned: bool = false
 
 
@@ -25,6 +36,15 @@ func reset() -> void:
 	score = 0
 	lives_changed.emit(lives)
 	score_changed.emit(score)
+
+
+func get_difficulty_settings() -> Dictionary:
+	return DIFFICULTY_SETTINGS[difficulty]
+
+
+func set_difficulty(value: Difficulty) -> void:
+	difficulty = value
+	difficulty_changed.emit(difficulty)
 
 
 func add_score(points: int) -> void:
