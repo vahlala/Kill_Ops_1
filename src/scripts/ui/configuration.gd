@@ -3,8 +3,14 @@ extends Control
 ## haut / bas (flèches ou W / S) : choisir un réglage ;
 ## gauche / droite (flèches ou A / D) : le modifier ; Entrée : cocher la sourdine ;
 ## Échap ou RETOUR : revenir au menu. Chaque changement est sauvegardé tout de suite.
+## Peut aussi s'ouvrir par-dessus le menu de pause (embedded = true) : RETOUR
+## ferme alors l'écran au lieu de changer de scène.
+
+signal closed
 
 const MENU := "res://scenes/ui/menu_principal.tscn"
+
+var embedded: bool = false
 
 @onready var music: HSlider = $Reglages/Musique/Curseur
 @onready var sfx: HSlider = $Reglages/Effets/Curseur
@@ -14,6 +20,8 @@ const MENU := "res://scenes/ui/menu_principal.tscn"
 
 
 func _ready() -> void:
+	if embedded:
+		$FondJungle.hide()                    # on laisse voir le jeu figé, assombri
 	# Valeurs actuelles d'abord, connexions ensuite (sinon on sauvegarderait pour rien).
 	music.value = Settings.music_volume * 100.0
 	sfx.value = Settings.sfx_volume * 100.0
@@ -71,4 +79,8 @@ func _input(event: InputEvent) -> void:
 
 
 func _back() -> void:
-	get_tree().change_scene_to_file(MENU)
+	if embedded:
+		closed.emit()
+		queue_free()
+	else:
+		get_tree().change_scene_to_file(MENU)

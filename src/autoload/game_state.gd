@@ -56,7 +56,9 @@ func add_score(points: int) -> void:
 func on_player_died() -> void:
 	lives -= 1
 	lives_changed.emit(lives)
-	await get_tree().create_timer(respawn_delay).timeout
+	# false : le délai s'arrête pendant la pause (sinon le niveau se rechargerait
+	# en pleine pause et le jeu resterait figé).
+	await get_tree().create_timer(respawn_delay, false).timeout
 	if lives > 0:
 		_just_respawned = true
 	else:

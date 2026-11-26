@@ -17,6 +17,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/cracheur.tscn" id="11_jdx4n"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/reine.tscn" id="12_5r6dw"]
 [ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="17_43rbu"]
+[ext_resource type="PackedScene" path="res://scenes/ui/pause_menu.tscn" id="18_8f5tv"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nf5e4"]
 
@@ -261,3 +262,5 @@ value = 45.0
 show_percentage = false
 
 [node name="HUD" parent="." unique_id=1630199735 instance=ExtResource("17_43rbu")]
+
+[node name="PauseMenu" parent="." unique_id=810821230 instance=ExtResource("18_8f5tv")]
