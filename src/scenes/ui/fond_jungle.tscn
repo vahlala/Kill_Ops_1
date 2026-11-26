@@ -1,0 +1,53 @@
+[gd_scene format=3]
+
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-1.png" id="1_xyooo"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-2.png" id="2_6gibe"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-3.png" id="3_h3nbg"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-4.png" id="4_vmiwt"]
+[ext_resource type="Texture2D" path="res://assets/backgrounds/jungle/plx-5.png" id="5_7fcl6"]
+
+[node name="FondJungle" type="Node2D" unique_id=1424762890]
+
+[node name="Couche1" type="Parallax2D" parent="." unique_id=604783958]
+repeat_size = Vector2(384, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Couche1" unique_id=1658579301]
+texture = ExtResource("1_xyooo")
+centered = false
+
+[node name="Couche2" type="Parallax2D" parent="." unique_id=308834987]
+repeat_size = Vector2(384, 0)
+autoscroll = Vector2(-4, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Couche2" unique_id=832718525]
+texture = ExtResource("2_6gibe")
+centered = false
+
+[node name="Couche3" type="Parallax2D" parent="." unique_id=785692732]
+repeat_size = Vector2(384, 0)
+autoscroll = Vector2(-8, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Couche3" unique_id=1890521595]
+texture = ExtResource("3_h3nbg")
+centered = false
+
+[node name="Couche4" type="Parallax2D" parent="." unique_id=288198632]
+repeat_size = Vector2(384, 0)
+autoscroll = Vector2(-14, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Couche4" unique_id=1299197843]
+texture = ExtResource("4_vmiwt")
+centered = false
+
+[node name="Couche5" type="Parallax2D" parent="." unique_id=1249510995]
+repeat_size = Vector2(384, 0)
+autoscroll = Vector2(-22, 0)
+repeat_times = 2
+
+[node name="Sprite2D" type="Sprite2D" parent="Couche5" unique_id=430187152]
+texture = ExtResource("5_7fcl6")
+centered = false
