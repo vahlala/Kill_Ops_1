@@ -12,6 +12,7 @@
 [ext_resource type="PackedScene" path="res://scenes/objects/kill_zone.tscn" id="7_jdx4n"]
 [ext_resource type="PackedScene" path="res://scenes/objects/pickup.tscn" id="8_w7qwj"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/fourmi.tscn" id="9_fqyld"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/essaim.tscn" id="10_j8u7w"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nf5e4"]
 
@@ -118,6 +119,9 @@ position = Vector2(2320, 308)
 
 [node name="Fourmi_6" parent="Ennemis" unique_id=1694660892 instance=ExtResource("9_fqyld")]
 position = Vector2(2400, 308)
+
+[node name="Essaim_1" parent="Ennemis" unique_id=399284294 instance=ExtResource("10_j8u7w")]
+position = Vector2(1632, 176)
 
 [node name="Player" parent="." unique_id=1915106120 instance=ExtResource("3_wsh7m")]
 
