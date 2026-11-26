@@ -16,6 +16,7 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/essaim.tscn" id="10_j8u7w"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/cracheur.tscn" id="11_jdx4n"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/reine.tscn" id="12_5r6dw"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="17_43rbu"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nf5e4"]
 
@@ -212,17 +213,6 @@ gizmo_extents = 16.0
 
 [node name="Interface" type="CanvasLayer" parent="." unique_id=453805229]
 
-[node name="Info" type="Label" parent="Interface" unique_id=1773973443]
-offset_left = 4.0
-offset_top = 2.0
-offset_right = 300.0
-offset_bottom = 25.0
-theme_override_font_sizes/font_size = 8
-theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 2
-text = "PV"
-
 [node name="Message" type="Label" parent="Interface" unique_id=517045077]
 anchors_preset = 8
 anchor_left = 0.5
@@ -269,3 +259,5 @@ theme_override_styles/fill = SubResource("StyleBoxFlat_43rbu")
 max_value = 45.0
 value = 45.0
 show_percentage = false
+
+[node name="HUD" parent="." unique_id=1630199735 instance=ExtResource("17_43rbu")]

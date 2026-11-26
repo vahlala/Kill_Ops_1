@@ -2,7 +2,6 @@ extends Node2D
 ## Script commun des niveaux.
 ## - place le joueur au marqueur « Depart » ;
 ## - limite la caméra à la zone peinte du TileMapLayer « Sol » ;
-## - affiche PV / vies / score / arme (affichage provisoire en attendant le HUD) ;
 ## - F9 (action goto_end) : déverrouille l'arrivée et téléporte juste avant ;
 ## - barre de vie du boss (groupe « Boss ») ; sa mort déverrouille l'arrivée ;
 ## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée ;
@@ -13,7 +12,6 @@ extends Node2D
 @onready var sol: TileMapLayer = $Sol
 @onready var depart: Marker2D = $Depart
 @onready var arrivee: Arrivee = $Arrivee
-@onready var info: Label = $Interface/Info
 @onready var message: Label = $Interface/Message
 @onready var boss_bar: Control = get_node_or_null("Interface/BarreBoss")
 
@@ -28,12 +26,7 @@ func _ready() -> void:
 	area = area.grow_side(SIDE_BOTTOM, -16)   # cache la rangée d'herbe sous le sol
 	player.set_camera_limits(area)
 
-	player.health_changed.connect(_update_info.unbind(2))
-	GameState.lives_changed.connect(_update_info.unbind(1))
-	GameState.score_changed.connect(_update_info.unbind(1))
-	player.ammo_changed.connect(_update_info.unbind(1))
 	GameState.level_completed.connect(_on_level_completed)
-	_update_info()
 	message.hide()
 
 	if boss_bar:
@@ -42,13 +35,6 @@ func _ready() -> void:
 		boss.fight_started.connect(_on_boss_fight_started.bind(boss))
 		boss.health_changed.connect(_on_boss_health_changed)
 		boss.died.connect(_on_boss_died)
-
-
-func _update_info() -> void:
-	var arme := "Mitrailleuse %d" % player.heavy_ammo if player.heavy_ammo > 0 else "Pistolet"
-	info.text = "PV %d / %d   Vies %d   Score %d   %s   %s" % [
-			player.hp, player.max_hp, GameState.lives, GameState.score, arme,
-			GameState.get_difficulty_settings().name]
 
 
 func _on_level_completed() -> void:

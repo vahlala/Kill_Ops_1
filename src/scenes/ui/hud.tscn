@@ -1,0 +1,110 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/ui/hud.gd" id="1_8qguk"]
+[ext_resource type="Texture2D" path="res://assets/sprites/player/SpriteSheet_player.png" id="2_136eg"]
+[ext_resource type="Script" path="res://scripts/ui/generic_progress_bar.gd" id="3_oj5la"]
+[ext_resource type="Texture2D" path="res://assets/sprites/weapons/weapons.png" id="4_gss2c"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h022r"]
+atlas = ExtResource("2_136eg")
+region = Rect2(18, 14, 10, 10)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4jqwt"]
+atlas = ExtResource("4_gss2c")
+region = Rect2(80, 80, 28, 16)
+
+[node name="HUD" type="CanvasLayer" unique_id=1630199735]
+script = ExtResource("1_8qguk")
+life_icon = SubResource("AtlasTexture_h022r")
+
+[node name="Haut" type="Control" parent="." unique_id=478897134]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+mouse_filter = 2
+
+[node name="Vies" type="HBoxContainer" parent="Haut" unique_id=173150501]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 4.0
+offset_bottom = 3.0
+theme_override_constants/separation = 1
+
+[node name="PV" type="Control" parent="Haut" unique_id=812436997]
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 14.0
+offset_right = 4.0
+offset_bottom = 14.0
+
+[node name="Texte" type="Label" parent="Haut/PV" unique_id=539117481]
+layout_mode = 0
+offset_top = -1.0
+offset_right = 14.0
+offset_bottom = 22.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "PV"
+
+[node name="Jauge" type="ProgressBar" parent="Haut/PV" unique_id=536792857]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 2.0
+offset_right = 79.0
+offset_bottom = 7.0
+value = 100.0
+show_percentage = false
+script = ExtResource("3_oj5la")
+
+[node name="Arme" type="Control" parent="Haut" unique_id=1654470134]
+anchors_preset = 0
+offset_left = 92.0
+offset_top = 3.0
+offset_right = 92.0
+offset_bottom = 3.0
+
+[node name="Icone" type="TextureRect" parent="Haut/Arme" unique_id=2077345916]
+layout_mode = 0
+texture = SubResource("AtlasTexture_4jqwt")
+
+[node name="Munitions" type="Label" parent="Haut/Arme" unique_id=930091633]
+layout_mode = 0
+offset_left = 30.0
+offset_right = 70.0
+offset_bottom = 16.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "∞"
+vertical_alignment = 1
+
+[node name="Score" type="Label" parent="Haut" unique_id=222212230]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 2.0
+offset_right = 380.0
+offset_bottom = 25.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(1, 0.9, 0.4, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "SCORE 000000"
+horizontal_alignment = 2
+
+[node name="Difficulte" type="Label" parent="Haut" unique_id=1382469205]
+layout_mode = 0
+offset_left = 276.0
+offset_top = 12.0
+offset_right = 380.0
+offset_bottom = 35.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_color = Color(0.8, 0.85, 0.8, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "Normal"
+horizontal_alignment = 2
