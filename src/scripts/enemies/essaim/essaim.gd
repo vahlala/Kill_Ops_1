@@ -35,6 +35,7 @@ var chasing: bool = false
 
 
 func _ready() -> void:
+	add_to_group("Essaim")
 	for i in count:
 		var boid: Criquet = criquet_scene.instantiate()
 		boid.swarm = self
@@ -85,6 +86,8 @@ func _camera_rect() -> Rect2:
 
 func _on_boid_died(boid: Criquet) -> void:
 	boids.erase(boid)
+	if boids.is_empty():
+		queue_free.call_deferred()      # nuée détruite : l'essaim disparaît aussi
 
 
 func _draw() -> void:

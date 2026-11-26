@@ -1,0 +1,101 @@
+[gd_scene format=3]
+
+[ext_resource type="Script" path="res://scripts/enemies/reine/reine.gd" id="1_ryide"]
+[ext_resource type="PackedScene" path="res://scenes/projectiles/acide.tscn" id="2_06flt"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/essaim.tscn" id="3_ael8r"]
+[ext_resource type="Shader" path="res://assets/shaders/blink.gdshader" id="4_2j6xc"]
+[ext_resource type="Texture2D" path="res://assets/sprites/enemies/reine.png" id="5_2qgt1"]
+[ext_resource type="Script" path="res://scripts/core/state_machine.gd" id="6_40xm4"]
+[ext_resource type="Script" path="res://scripts/enemies/reine/states/reine_sleep.gd" id="7_55wiv"]
+[ext_resource type="Script" path="res://scripts/enemies/reine/states/reine_phase1.gd" id="8_ci3tn"]
+[ext_resource type="Script" path="res://scripts/enemies/reine/states/reine_phase2.gd" id="9_pa686"]
+[ext_resource type="Script" path="res://scripts/enemies/reine/states/reine_phase3.gd" id="10_4iub7"]
+[ext_resource type="Script" path="res://scripts/enemies/reine/states/reine_transition.gd" id="11_h8s58"]
+[ext_resource type="Script" path="res://scripts/enemies/reine/states/reine_dead.gd" id="12_beqt8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_38hki"]
+resource_local_to_scene = true
+shader = ExtResource("4_2j6xc")
+shader_parameter/flash_color = null
+shader_parameter/flash_modifier = null
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d4eb6"]
+size = Vector2(52, 26)
+
+[sub_resource type="Animation" id="Animation_c1hto"]
+length = 0.12
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_cd6us"]
+_data = {
+&"Fly": SubResource("Animation_c1hto")
+}
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_5ogt1"]
+size = Vector2(48, 22)
+
+[node name="Reine" type="CharacterBody2D" unique_id=1334333489]
+collision_layer = 4
+collision_mask = 0
+motion_mode = 1
+script = ExtResource("1_ryide")
+acid_scene = ExtResource("2_06flt")
+essaim_scene = ExtResource("3_ael8r")
+max_hp = 45
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1162930817]
+material = SubResource("ShaderMaterial_38hki")
+texture = ExtResource("5_2qgt1")
+hframes = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=428123339]
+position = Vector2(-2, 4)
+shape = SubResource("RectangleShape2D_d4eb6")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=234389372]
+libraries/ = SubResource("AnimationLibrary_cd6us")
+
+[node name="Mouth" type="Marker2D" parent="." unique_id=63892214]
+position = Vector2(29, 6)
+
+[node name="Hitbox" type="Area2D" parent="." unique_id=1772002568]
+collision_layer = 0
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox" unique_id=741406764]
+position = Vector2(-2, 5)
+shape = SubResource("RectangleShape2D_5ogt1")
+
+[node name="StateMachine" type="Node" parent="." unique_id=1611034448 node_paths=PackedStringArray("initial_state")]
+script = ExtResource("6_40xm4")
+initial_state = NodePath("Sleep")
+
+[node name="Sleep" type="Node" parent="StateMachine" unique_id=462016108]
+script = ExtResource("7_55wiv")
+
+[node name="Phase1" type="Node" parent="StateMachine" unique_id=129577951]
+script = ExtResource("8_ci3tn")
+
+[node name="Phase2" type="Node" parent="StateMachine" unique_id=1208438052]
+script = ExtResource("9_pa686")
+
+[node name="Phase3" type="Node" parent="StateMachine" unique_id=1010306751]
+script = ExtResource("10_4iub7")
+
+[node name="Transition" type="Node" parent="StateMachine" unique_id=1713045521]
+script = ExtResource("11_h8s58")
+
+[node name="Dead" type="Node" parent="StateMachine" unique_id=1082945656]
+script = ExtResource("12_beqt8")

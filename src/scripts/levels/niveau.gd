@@ -3,7 +3,8 @@ extends Node2D
 ## - place le joueur au marqueur « Depart » ;
 ## - limite la caméra à la zone peinte du TileMapLayer « Sol » ;
 ## - affiche PV / vies / score / arme (affichage provisoire en attendant le HUD) ;
-## - F9 (action goto_end) : téléporte juste avant l'arrivée ;
+## - F9 (action goto_end) : déverrouille l'arrivée et téléporte juste avant ;
+## - barre de vie du boss (groupe « Boss ») ; sa mort déverrouille l'arrivée ;
 ## - affiche « MISSION ACCOMPLIE » quand l'arrivée est touchée.
 
 @onready var player: Player = $Player
@@ -12,6 +13,7 @@ extends Node2D
 @onready var arrivee: Arrivee = $Arrivee
 @onready var info: Label = $Interface/Info
 @onready var message: Label = $Interface/Message
+@onready var boss_bar: Control = get_node_or_null("Interface/BarreBoss")
 
 
 func _ready() -> void:
@@ -32,6 +34,13 @@ func _ready() -> void:
 	_update_info()
 	message.hide()
 
+	if boss_bar:
+		boss_bar.hide()
+	for boss in get_tree().get_nodes_in_group("Boss"):
+		boss.fight_started.connect(_on_boss_fight_started.bind(boss))
+		boss.health_changed.connect(_on_boss_health_changed)
+		boss.died.connect(_on_boss_died)
+
 
 func _update_info() -> void:
 	var arme := "Mitrailleuse %d" % player.heavy_ammo if player.heavy_ammo > 0 else "Pistolet"
@@ -44,7 +53,27 @@ func _on_level_completed() -> void:
 	message.show()
 
 
+func _on_boss_fight_started(boss: GenericCharacter) -> void:
+	if boss_bar:
+		var gauge: ProgressBar = boss_bar.get_node("Jauge")
+		gauge.max_value = boss.max_hp
+		gauge.value = boss.hp
+		boss_bar.show()
+
+
+func _on_boss_health_changed(hp: int, _max_hp: int) -> void:
+	if boss_bar:
+		boss_bar.get_node("Jauge").value = hp
+
+
+func _on_boss_died() -> void:
+	if boss_bar:
+		boss_bar.hide()
+	arrivee.unlock()
+
+
 func _unhandled_input(event: InputEvent) -> void:
 	if event.is_action_pressed("goto_end"):
+		arrivee.unlock()
 		player.global_position = arrivee.global_position + Vector2(-48, -16)
 		player.velocity = Vector2.ZERO

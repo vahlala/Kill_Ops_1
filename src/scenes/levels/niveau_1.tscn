@@ -14,8 +14,20 @@
 [ext_resource type="PackedScene" path="res://scenes/enemies/fourmi.tscn" id="9_fqyld"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/essaim.tscn" id="10_j8u7w"]
 [ext_resource type="PackedScene" path="res://scenes/enemies/cracheur.tscn" id="11_jdx4n"]
+[ext_resource type="PackedScene" path="res://scenes/enemies/reine.tscn" id="12_5r6dw"]
 
 [sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_nf5e4"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_nf5e4"]
+bg_color = Color(0.1, 0.05, 0.1, 0.85)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_43rbu"]
+bg_color = Color(0.75, 0.15, 0.5, 1)
 
 [node name="Niveau1" type="Node2D" unique_id=153022795]
 script = ExtResource("1_sww66")
@@ -127,6 +139,9 @@ position = Vector2(1632, 176)
 [node name="Cracheur_1" parent="Ennemis" unique_id=102769119 instance=ExtResource("11_jdx4n")]
 position = Vector2(2032, 200)
 
+[node name="Reine" parent="Ennemis" unique_id=1334333489 instance=ExtResource("12_5r6dw")]
+position = Vector2(2960, 222)
+
 [node name="Player" parent="." unique_id=1915106120 instance=ExtResource("3_wsh7m")]
 
 [node name="AvantPlan" type="TileMapLayer" parent="." unique_id=697113146]
@@ -140,6 +155,7 @@ position = Vector2(64, 288)
 
 [node name="Arrivee" parent="." unique_id=318881446 instance=ExtResource("5_fqyld")]
 position = Vector2(3120, 320)
+locked = true
 
 [node name="KillZoneBas" parent="." unique_id=491748652 instance=ExtResource("7_jdx4n")]
 
@@ -202,3 +218,33 @@ theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 4
 text = "MISSION ACCOMPLIE !"
 horizontal_alignment = 1
+
+[node name="BarreBoss" type="Control" parent="Interface" unique_id=1767044791]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 112.0
+offset_top = 200.0
+offset_right = 272.0
+offset_bottom = 212.0
+
+[node name="Nom" type="Label" parent="Interface/BarreBoss" unique_id=782739000]
+layout_mode = 0
+offset_top = -2.0
+offset_right = 46.0
+offset_bottom = 21.0
+theme_override_font_sizes/font_size = 8
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 2
+text = "REINE"
+
+[node name="Jauge" type="ProgressBar" parent="Interface/BarreBoss" unique_id=939198811]
+layout_mode = 0
+offset_left = 34.0
+offset_top = 2.0
+offset_right = 160.0
+offset_bottom = 29.0
+theme_override_styles/background = SubResource("StyleBoxFlat_nf5e4")
+theme_override_styles/fill = SubResource("StyleBoxFlat_43rbu")
+max_value = 45.0
+value = 45.0
+show_percentage = false
